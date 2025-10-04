@@ -21,7 +21,7 @@ Este repositorio está organizado en carpetas por Secciones y por grupos de proy
 │   └── ...
 └── README.md
 
-
+```
 ---
 
 ## 📝 Instrucciones para los Grupos
