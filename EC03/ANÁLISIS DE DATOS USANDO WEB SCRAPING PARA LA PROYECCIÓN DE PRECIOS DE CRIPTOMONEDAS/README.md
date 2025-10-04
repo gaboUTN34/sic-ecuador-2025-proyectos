@@ -1,16 +1,18 @@
-# 📌 <NOMBRE_DEL_PROYECTO>
+# 📌 Análisis de datos usando Web Scraping para la Proyección de Precios de Criptomonedas
 
 **Curso:** Samsung Innovation Campus – Módulo de Python (Ecuador 2025)  
-**Seccion:** <ecuador03 | ecuador04>  
-**Carpeta:** `/<ecuador03 o ecuador04>/<proyecto-xx-nombre>`
+
+**Seccion:** ecuador03
+
+**Carpeta:** `/EC03/ANÁLISIS DE DATOS USANDO WEB SCRAPING PARA LA PROYECCIÓN DE PRECIOS DE CRIPTOMONEDAS`
 
 ---
 
 ## 👥 Integrantes del Grupo
-- Nombre Apellido 
-- Nombre Apellido 
-- Nombre Apellido 
-- Nombre Apellido 
+- Wladimir Paredes 
+- Anthony Pachay
+- Juan Pablo Perez
+- Gabriel Imbacuáns
 
 ---
 
