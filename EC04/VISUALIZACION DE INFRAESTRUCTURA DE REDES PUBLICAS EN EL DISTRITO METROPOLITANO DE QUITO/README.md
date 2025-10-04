@@ -1,8 +1,8 @@
 # 📌 <VISUALIZACION_DE_INFRAESTRUCUTURA_DE_REDES_PUBLICAS_EN_EL_DISTRITO_METROPOLITANO_DE_QUITO>
 
 **Curso:** Samsung Innovation Campus – Módulo de Python (Ecuador 2025)  
-**Seccion:** <ecuador03 | ecuador04>  
-**Carpeta:** `/<ecuador03 o ecuador04>/<proyecto-xx-nombre>`
+**Seccion:** EC04  
+**Carpeta:** `/EC04/VISUALIZACION DE INFRAESTRUCTURA DE REDES PUBLICAS EN EL DISTRITO METROPOLITANO DE QUITO`
 
 ---
 
@@ -11,7 +11,7 @@
 - Adriana Padilla
 - Diego Montesdeoca
 - Gabriel Andrade
-- Camilo Vasquez 
+- Camilo Vasquez 
 
 ---
 
