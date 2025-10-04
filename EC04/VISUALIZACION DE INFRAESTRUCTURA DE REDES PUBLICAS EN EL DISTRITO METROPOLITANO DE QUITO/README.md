@@ -1,4 +1,4 @@
-# 📌 <NOMBRE_DEL_PROYECTO>
+# 📌 <VISUALIZACION_DE_INFRAESTRUCUTURA_DE_REDES_PUBLICAS_EN_EL_DISTRITO_METROPOLITANO_DE_QUITO>
 
 **Curso:** Samsung Innovation Campus – Módulo de Python (Ecuador 2025)  
 **Seccion:** <ecuador03 | ecuador04>  
@@ -7,35 +7,28 @@
 ---
 
 ## 👥 Integrantes del Grupo
-- Nombre Apellido 
-- Nombre Apellido 
-- Nombre Apellido 
-- Nombre Apellido 
+- Mario Anrrango
+- Adriana Padilla
+- Diego Montesdeoca
+- Gabriel Andrade
+- Camilo Vasquez 
 
 ---
 
 ## 📝 Descripción del Proyecto
-Breve descripción clara del proyecto (2–5 líneas). Indica:
-- ¿Qué problema resuelve?
-- ¿Cuál es el objetivo principal?
-- ¿Quiénes son los usuarios o beneficiarios?
-
-**Ejemplo:**  
-> Este proyecto es una aplicación en Python para la gestión de inventarios de pequeñas tiendas. Permite agregar productos, registrar ventas y generar reportes básicos para facilitar el control de stock.
-
----
+Este proyecto es un programa de visualización y análisis de los puntos WiFi municipales de Quito el cual facilita el acceso a información de conectividad pública con el propósito de identificar brechas de cobertura y optimizar recursos beneficiando a ciudadanos sin acceso a datos móviles y conexión a internet.
 
 ## ⚙️ Instrucciones de Instalación y Ejecución
 
 ### Requisitos
-- Python 3.9+ (recomendado)
+- Python 3.13.7 (recomendado)
 - Git
 
 ### Pasos
 1. Clonar el repositorio (o asegurarse de estar en la carpeta del proyecto):
    ```bash
-   git clone <URL_DEL_REPO>
-   cd <ruta/al/proyecto>   # ej: cd ecuador03/proyecto-01-nombre
+   git clone <(https://github.com/fundestpuente/sic-ecuador-2025-proyectos.git)>
+   cd <EC04/VISUALIZACION DE INSFRAESTRUCTURA DE REDES PUBLICAS EN EL DISTRITO METROPOLITANO DE QUITO>   # ej: cd ecuador03/proyecto-01-nombre
    ```
 
 2. Actualizar pip e instalar dependencias:
@@ -81,7 +74,7 @@ proyecto-xx-nombre/
 ---
 
 ## ✅ Herramientas Implementadas
-- **Lenguaje:** Python 3.x
+- **Lenguaje:** Python 3.13.x
 - **Librerías principales:** `<pandas, numpy, flask, fastapi, matplotlib, etc.>` (lista → reemplazar)
 - **Otras herramientas:** `<Docker, GitHub Actions (CI), pytest, etc.>` (lista → reemplazar)
 
