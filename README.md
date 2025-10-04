@@ -59,4 +59,3 @@ Cada grupo debe:
 Este repositorio representa el esfuerzo de cada grupo en la primera entrega del módulo de **Python**. La organización y la claridad en los proyectos será tomada en cuenta en la evaluación.  
 
 ¡Mucho éxito a todos los equipos! 🚀  
-prueba readme
