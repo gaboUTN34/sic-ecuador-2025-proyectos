@@ -74,8 +74,6 @@ VISUALIZACION DE INFRAESTRUCTURA DE REDES PUBLICAS EN EL DISTRITO METROPOLITANO 
 └── README.md                   # Este archivo.
 ```
 
-> Nota: Ajusta la estructura según las necesidades de tu proyecto, pero mantén orden y claridad.
-
 ---
 
 ## ✅ Herramientas Implementadas
