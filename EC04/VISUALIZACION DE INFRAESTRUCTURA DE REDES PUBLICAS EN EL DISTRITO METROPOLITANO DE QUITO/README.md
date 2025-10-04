@@ -54,19 +54,24 @@ Este proyecto es un programa de visualización y análisis de los puntos WiFi mu
 
 ---
 
-## 📂 Estructura del Código (sugerida)
+## 📂 Estructura del proyecto:
 ```
-proyecto-xx-nombre/
-│
-├── main.py               # Punto de entrada principal
-├── README.md             # Este archivo (personalizar)
-├── requirements.txt      # Dependencias del proyecto
-├── src/                  # Código fuente del proyecto
-│   ├── module1.py
-│   └── module2.py
-├── data/                 # Datos de ejemplo 
-├── docs/                 # Documentación adicional (opcional)
-└── .gitignore
+VISUALIZACION DE INFRAESTRUCTURA DE REDES PUBLICAS EN EL DISTRITO METROPOLITANO DE QUITO/
+├── 📂 data/
+│   ├── raw_data.py             # Descarga de la API
+│   └── processed_data.py       # Limpieza de los datos
+├── 📂 analysis/                   
+│   ├── basic_stats.py          # Estadísticas básicas
+│   └── coverage_calc.py        # Cálculo de la cobertura WIFI
+├── 📂 visualization/                   
+│   ├── charts.py               # Gráficos estáticos
+│   └── maps.py                 # Mapas interactivos
+├── 📂 dashboard/                   
+│   └── app.py                  # Dashboard para mostrar los datos
+├── 📂 utils/                   
+│   └── helpers.py              # Funciones comunes
+├── requirements.txt            # Dependencias del proyecto
+└── README.md                   # Este archivo.
 ```
 
 > Nota: Ajusta la estructura según las necesidades de tu proyecto, pero mantén orden y claridad.
