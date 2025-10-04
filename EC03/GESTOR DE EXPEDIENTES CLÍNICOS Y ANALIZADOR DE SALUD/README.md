@@ -1,13 +1,13 @@
-# 📌 <NOMBRE_DEL_PROYECTO>
+# 📌 <GESTOR DE EXPEDIENTES CLÍNICOS Y ANALIZADOR DE SALUD>
 
 **Curso:** Samsung Innovation Campus – Módulo de Python (Ecuador 2025)  
-**Seccion:** <ecuador03 | ecuador04>  
-**Carpeta:** `/<ecuador03 o ecuador04>/<proyecto-xx-nombre>`
+**Seccion:** <ecuador03>  
+**Carpeta:** `/<ecuador03>/<Gestor de expedientes clínicos y analizador de salud>`
 
 ---
 
 ## 👥 Integrantes del Grupo
-- Nombre Apellido 
+- Jaime Andrés Estrada 
 - Nombre Apellido 
 - Nombre Apellido 
 - Nombre Apellido 
