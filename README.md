@@ -9,17 +9,18 @@ Este repositorio está organizado en carpetas por Secciones y por grupos de proy
 
 ## 📂 Organización del Repositorio
 
-La estructura del repositorio es la siguiente:
+```plaintext
 /
-├── seccion-03/
+├── ecuador03/
 │   ├── proyecto-01-nombre/
 │   ├── proyecto-02-nombre/
 │   └── ...
-├── seccion-04/
+├── ecuador04/
 │   ├── proyecto-01-nombre/
 │   ├── proyecto-02-nombre/
 │   └── ...
 └── README.md
+
 
 ---
 
