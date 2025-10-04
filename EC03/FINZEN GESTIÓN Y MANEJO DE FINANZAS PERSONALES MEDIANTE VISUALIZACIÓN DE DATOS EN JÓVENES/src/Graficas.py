@@ -103,3 +103,96 @@ def grafico_comparativo_completo(df_finanzas, cedula):
     ax.legend()
     plt.tight_layout()
     plt.show()
+
+
+#===========================================================GRAFICAS GENERALES===============================================
+
+#GRAFICO GENERAL 1
+
+def proporcion_ingresos(df_tipo_ingreso):
+    fig, ax = plt.subplots(figsize=(8, 8))
+
+    # Gráfico de pastel que representa la cantidad de estudiantes con ingresos con relacion a los que no reciben ingresos.
+    conteo_ingresos = df_tipo_ingreso['tipo_ingreso'].value_counts()
+    ax.pie(conteo_ingresos.values, labels=['Con Ingresos', 'Sin Ingresos'],
+           autopct='%1.1f%%', colors=['#2ecc71', '#e74c3c'], startangle=90)
+    ax.set_title('Proporción de Estudiantes con/sin Ingresos')
+
+    plt.tight_layout()
+    plt.show()
+
+#GRAFICA GENERAL 2
+
+def dificultad_financiera_general(df_equilibrio):
+    plt.figure(figsize=(12, 6))
+
+    # Histograma que muestra el nivel de dificultad que presentan los usuarios con 
+    # relacion al manejo de sus finanzas.
+    
+    ax = sns.histplot(data=df_equilibrio, x='dificultad_equilibrio', bins=5,
+                     kde=True, color='#9b59b6')
+    plt.title('Distribución de Niveles de Dificultad Financiera - Todos los Usuarios')
+    plt.xlabel('Nivel de Dificultad (1=Muy fácil, 5=Muy difícil)')
+    plt.ylabel('Cantidad de Usuarios')
+
+    # Añadir estadísticas
+    media = df_equilibrio['dificultad_equilibrio'].mean()
+    plt.axvline(media, color='red', linestyle='--',
+                label=f'Dificultad Promedio: {media:.2f}')
+    plt.legend()
+
+    plt.tight_layout()
+    plt.show()
+
+#GRAFICO GENERAL 3
+
+#Grafico de barras que representa el porcentaje de ahorro esperado por rango de edad de los 
+#jovenes con relacion al que realmente estan obteniendo.
+
+def edad_vs_ahorro(df_finanzas):
+    # Calculo del ahorro real del joven
+    df_finanzas['ahorro_real'] = df_finanzas.apply(
+        lambda x: sum(x['ingresos'].values()) * (x['porcentaje_ahorro'] / 100), axis=1
+    )
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    # Creacion del gráfico de barras agrupado
+    df_finanzas['grupo_edad'] = pd.cut(df_finanzas['edad'],
+                                     bins=[17, 20, 23, 26, 30],
+                                     labels=['18-20', '21-23', '24-26', '27+'])
+
+    datos_agrupados = df_finanzas.groupby('grupo_edad').agg({
+        'porcentaje_ahorro': 'mean',
+        'ahorro_real': 'mean'
+    }).reset_index()
+
+    x = range(len(datos_agrupados))
+    ancho = 0.35
+
+    ax.bar(x, datos_agrupados['porcentaje_ahorro'], ancho, label='% Ahorro', alpha=0.7, color='blue')
+    ax.set_xlabel('Grupo de Edad')
+    ax.set_ylabel('Porcentaje de Ahorro (%)', color='blue')
+    ax.tick_params(axis='y', labelcolor='blue')
+
+    ax_twin = ax.twinx()
+    ax_twin.bar([i + ancho for i in x], datos_agrupados['ahorro_real'], ancho,
+                label='Ahorro Real ($)', color='orange', alpha=0.7)
+    ax_twin.set_ylabel('Ahorro Real ($)', color='orange')
+    ax_twin.tick_params(axis='y', labelcolor='orange')
+
+    ax.set_xticks([i + ancho/2 for i in x])
+    ax.set_xticklabels(datos_agrupados['grupo_edad'])
+    ax.set_title('Ahorro por Grupo de Edad')
+
+    # Leyenda añadida en la grafica.
+    lines1, labels1 = ax.get_legend_handles_labels()
+    lines2, labels2 = ax_twin.get_legend_handles_labels()
+    ax.legend(lines1 + lines2, labels1 + labels2)
+
+    plt.tight_layout()
+    plt.show()
+
+
+
+
