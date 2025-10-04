@@ -1,27 +1,20 @@
-# 📌 <NOMBRE_DEL_PROYECTO>
-
+# 📌 Análisis de la calidad del aire: una exploración de contaminantes atmosféricos y su relación con el PM2.5
 **Curso:** Samsung Innovation Campus – Módulo de Python (Ecuador 2025)  
-**Seccion:** <ecuador03 | ecuador04>  
-**Carpeta:** `/<ecuador03 o ecuador04>/<proyecto-xx-nombre>`
+**Seccion:** EC03  
+**Carpeta:** `/EC03/ANÁLISIS Y VISUALIZACIÓN DE LA CALIDAD DEL AIRE`
 
 ---
 
 ## 👥 Integrantes del Grupo
-- Nombre Apellido 
-- Nombre Apellido 
-- Nombre Apellido 
-- Nombre Apellido 
+- Josue Malla
+- Paul Altafuya
+- Vladimir Espinoza 
+- Patricio Quishpe
 
 ---
 
 ## 📝 Descripción del Proyecto
-Breve descripción clara del proyecto (2–5 líneas). Indica:
-- ¿Qué problema resuelve?
-- ¿Cuál es el objetivo principal?
-- ¿Quiénes son los usuarios o beneficiarios?
-
-**Ejemplo:**  
-> Este proyecto es una aplicación en Python para la gestión de inventarios de pequeñas tiendas. Permite agregar productos, registrar ventas y generar reportes básicos para facilitar el control de stock.
+> Este proyecto analiza y visualiza la calidad del aire, enfocándose en el PM2.5, un contaminante peligroso para la salud. Se estudian otros contaminantes (CO, NO, NO2, O3, SO2, PM10, NH3) para identificar patrones, tendencias y correlaciones que ayuden a comprender su impacto ambiental y en la salud.
 
 ---
 
@@ -34,8 +27,8 @@ Breve descripción clara del proyecto (2–5 líneas). Indica:
 ### Pasos
 1. Clonar el repositorio (o asegurarse de estar en la carpeta del proyecto):
    ```bash
-   git clone <URL_DEL_REPO>
-   cd <ruta/al/proyecto>   # ej: cd ecuador03/proyecto-01-nombre
+   git clone https://github.com/fundestpuente/sic-ecuador-2025-proyectos.git
+   cd './EC03/ANÁLISIS Y VISUALIZACIÓN DE LA CALIDAD DEL AIRE'
    ```
 
 2. Actualizar pip e instalar dependencias:
