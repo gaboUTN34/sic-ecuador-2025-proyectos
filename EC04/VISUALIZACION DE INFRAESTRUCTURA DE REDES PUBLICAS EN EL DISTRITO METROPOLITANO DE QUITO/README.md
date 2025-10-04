@@ -76,12 +76,12 @@ VISUALIZACION DE INFRAESTRUCTURA DE REDES PUBLICAS EN EL DISTRITO METROPOLITANO 
 
 ## ✅ Herramientas Implementadas
 - **Lenguaje:** Python 3.13.x
-- **Librerías principales:** `<pandas, numpy, flask, fastapi, matplotlib, etc.>` (lista → reemplazar)
-- **Otras herramientas:** `<Docker, GitHub Actions (CI), pytest, etc.>` (lista → reemplazar)
+- **Librerías principales:** `<pandas, numpy, requests, matplotlib, seaborn, folium, dash, flask, scipy>`
+- **Otras herramientas:** `<pytest>`
 
 ---
 
 ## 💡 Buenas prácticas y reglas internas
 - Trabajar únicamente dentro de la carpeta asignada al grupo.
-- Commits claros: `feat: agrega función X`, `fix: corrige bug en Y`, `docs: actualiza README`.
+- Realizar commits claros, por ejemplo: `feat: agrega función X`, `fix: corrige bug en Y`, `docs: actualiza README`.
 - Mantener el README del proyecto actualizado con cambios importantes.
