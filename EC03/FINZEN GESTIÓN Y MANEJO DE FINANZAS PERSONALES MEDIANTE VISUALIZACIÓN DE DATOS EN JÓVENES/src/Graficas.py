@@ -3,6 +3,7 @@
 #====================================================================#
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pandas as pd
 
 def grafico_finanzas_personales(df_finanzas, cedula):
     # Filtrar usuario específico
@@ -113,7 +114,7 @@ def proporcion_ingresos(df_tipo_ingreso):
     fig, ax = plt.subplots(figsize=(8, 8))
 
     # Gráfico de pastel que representa la cantidad de estudiantes con ingresos con relacion a los que no reciben ingresos.
-    conteo_ingresos = df_tipo_ingreso['tipo_ingreso'].value_counts()
+    conteo_ingresos = df_tipo_ingreso['tipo_ingreso'].value_counts().reindex([1,0],fill_value=0)
     ax.pie(conteo_ingresos.values, labels=['Con Ingresos', 'Sin Ingresos'],
            autopct='%1.1f%%', colors=['#2ecc71', '#e74c3c'], startangle=90)
     ax.set_title('Proporción de Estudiantes con/sin Ingresos')
@@ -192,6 +193,60 @@ def edad_vs_ahorro(df_finanzas):
 
     plt.tight_layout()
     plt.show()
+    
+#GRAFICO GENERAL 4
+#Tipo: grafico de caja
+# Relacion entre el genero y los gastos
+
+def distribucion_gastos_por_genero(df_finanzas):
+    
+    #Grafico comparativo del gasto secundario promedio por género en toda la muestra
+    
+    #1.- Calcular gastos secundario por usuario
+    gastos_por_genero=[]
+    
+    for i in range(len(df_finanzas)):
+        fila=df_finanzas.iloc[i]
+        genero= fila.get("genero","No especifica")
+        if isinstance(fila.get("gastos_secundarios"), dict):
+            total_gastos_sec = sum(fila["gastos_secundarios"].values())
+        else:
+            total_gastos_sec = 0.0
+
+        gastos_por_genero.append({"genero": genero, "total_gastos_secundarios": total_gastos_sec})
+
+    #2.- Crear DataFrame con resultados
+    df_gastos = pd.DataFrame(gastos_por_genero)
+    
+    #3.- Agrupar por género y calcular promedio 
+    resumen = df_gastos.groupby("genero", dropna=False)["total_gastos_secundarios"].mean().reset_index()
+    resumen = resumen.sort_values("total_gastos_secundarios", ascending=False)
+
+    #4.- Crear Grafico y establecer datos
+    fig, ax = plt.subplots(figsize=(8, 5))
+    colores = ["#3498db", "#e74c3c", "#9b59b6", "#2ecc71"][:len(resumen)]
+
+    barras = ax.bar(resumen["genero"], resumen["total_gastos_secundarios"], color=colores, alpha=0.85)
+    ax.set_title("Promedio de gastos secundarios por género", fontsize=13, fontweight="bold")
+    ax.set_xlabel("Género")
+    ax.set_ylabel("Gasto promedio (USD)")
+    ax.grid(axis="y", alpha=0.3)
+
+    # Etiquetas encima de cada barra
+    for bar in barras:
+        ax.text(bar.get_x() + bar.get_width()/2,
+                bar.get_height() + 5,
+                f"${bar.get_height():.2f}",
+                ha="center", va="bottom", fontsize=10, fontweight="bold")
+
+    plt.tight_layout()
+    plt.show()
+   
+    
+    
+    
+    
+
 
 
 
