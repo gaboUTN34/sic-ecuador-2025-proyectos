@@ -1,4 +1,4 @@
-# 📌 <NOMBRE_DEL_PROYECTO>
+# 📌 Análisis del analfabetismo digital en Ecuador y sus principales brechas👥🖥️
 
 **Curso:** Samsung Innovation Campus – Módulo de Python (Ecuador 2025)  
 **Seccion:** <ecuador03 | ecuador04>  
@@ -7,18 +7,22 @@
 ---
 
 ## 👥 Integrantes del Grupo
-- Nombre Apellido 
-- Nombre Apellido 
-- Nombre Apellido 
-- Nombre Apellido 
+- Andrés Rodríguez 
+- Camila Hernández 
+- ⁠Luis Pezo
+- ⁠Kevin Gómez
+- ⁠Fernando Quezada 
 
 ---
 
 ## 📝 Descripción del Proyecto
 Breve descripción clara del proyecto (2–5 líneas). Indica:
 - ¿Qué problema resuelve?
+  
 - ¿Cuál es el objetivo principal?
+  
 - ¿Quiénes son los usuarios o beneficiarios?
+  
 
 **Ejemplo:**  
 > Este proyecto es una aplicación en Python para la gestión de inventarios de pequeñas tiendas. Permite agregar productos, registrar ventas y generar reportes básicos para facilitar el control de stock.
