@@ -57,19 +57,17 @@ Este proyecto es un programa de visualización y análisis de los puntos WiFi mu
 ## 📂 Estructura del proyecto:
 ```
 VISUALIZACION DE INFRAESTRUCTURA DE REDES PUBLICAS EN EL DISTRITO METROPOLITANO DE QUITO/
-├── 📂 data/
+├── 📂 analisis_de_datos/
 │   ├── raw_data.py             # Descarga de la API
 │   └── processed_data.py       # Limpieza de los datos
-├── 📂 analysis/                   
+├── 📂 dashboard/                   
 │   ├── basic_stats.py          # Estadísticas básicas
 │   └── coverage_calc.py        # Cálculo de la cobertura WIFI
-├── 📂 visualization/                   
-│   ├── charts.py               # Gráficos estáticos
-│   └── maps.py                 # Mapas interactivos
-├── 📂 dashboard/                   
-│   └── app.py                  # Dashboard para mostrar los datos
-├── 📂 utils/                   
-│   └── helpers.py              # Funciones comunes
+├── 📂 manejo_de_datos/                   
+│   ├── datos_procesados.py     # Gráficos estáticos
+│   └── extraccion_datos.py     # Mapas interactivos
+├── 📂 visualizacion/                   
+│   └── visualizador.py         # Dashboard para mostrar los datos
 ├── requirements.txt            # Dependencias del proyecto
 └── README.md                   # Este archivo.
 ```
