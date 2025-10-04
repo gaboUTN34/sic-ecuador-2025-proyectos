@@ -57,19 +57,17 @@ Este proyecto es un programa de visualización y análisis de los puntos WiFi mu
 ## 📂 Estructura del proyecto:
 ```
 VISUALIZACION DE INFRAESTRUCTURA DE REDES PUBLICAS EN EL DISTRITO METROPOLITANO DE QUITO/
-├── 📂 data/
+├── 📂 analisis_de_datos/
 │   ├── raw_data.py             # Descarga de la API
 │   └── processed_data.py       # Limpieza de los datos
-├── 📂 analysis/                   
+├── 📂 dashboard/                   
 │   ├── basic_stats.py          # Estadísticas básicas
 │   └── coverage_calc.py        # Cálculo de la cobertura WIFI
-├── 📂 visualization/                   
-│   ├── charts.py               # Gráficos estáticos
-│   └── maps.py                 # Mapas interactivos
-├── 📂 dashboard/                   
-│   └── app.py                  # Dashboard para mostrar los datos
-├── 📂 utils/                   
-│   └── helpers.py              # Funciones comunes
+├── 📂 manejo_de_datos/                   
+│   ├── datos_procesados.py     # Gráficos estáticos
+│   └── extraccion_datos.py     # Mapas interactivos
+├── 📂 visualizacion/                   
+│   └── visualizador.py         # Dashboard para mostrar los datos
 ├── requirements.txt            # Dependencias del proyecto
 └── README.md                   # Este archivo.
 ```
@@ -78,17 +76,12 @@ VISUALIZACION DE INFRAESTRUCTURA DE REDES PUBLICAS EN EL DISTRITO METROPOLITANO 
 
 ## ✅ Herramientas Implementadas
 - **Lenguaje:** Python 3.13.x
-- **Librerías principales:** `<pandas, numpy, flask, fastapi, matplotlib, etc.>` (lista → reemplazar)
-- **Otras herramientas:** `<Docker, GitHub Actions (CI), pytest, etc.>` (lista → reemplazar)
+- **Librerías principales:** `<pandas, numpy, requests, matplotlib, seaborn, folium, dash, flask, scipy>`
+- **Otras herramientas:** `<pytest>`
 
 ---
 
 ## 💡 Buenas prácticas y reglas internas
 - Trabajar únicamente dentro de la carpeta asignada al grupo.
-- Commits claros: `feat: agrega función X`, `fix: corrige bug en Y`, `docs: actualiza README`.
+- Realizar commits claros, por ejemplo: `feat: agrega función X`, `fix: corrige bug en Y`, `docs: actualiza README`.
 - Mantener el README del proyecto actualizado con cambios importantes.
-
-
-> **IMPORTANTE:** Este README es una plantilla base. Cada grupo debe editarlo y completarlo con la información real de su proyecto antes de la entrega.
-
-¡Éxitos con tu proyecto! 🚀
