@@ -7,21 +7,31 @@
 ---
 
 ## 👥 Integrantes del Grupo
-- Nombre Apellido 
-- Nombre Apellido 
-- Nombre Apellido 
-- Nombre Apellido 
+- Sergio Rodríguez 
+- Arianna Feijoo
+- Daniel Suárez 
+- Edison Soto
+- Anthony Baes 
 
 ---
 
 ## 📝 Descripción del Proyecto
-Breve descripción clara del proyecto (2–5 líneas). Indica:
-- ¿Qué problema resuelve?
-- ¿Cuál es el objetivo principal?
-- ¿Quiénes son los usuarios o beneficiarios?
+Este proyecto analiza los hábitos de sueño para detectar factores que influyen en su calidad. A partir de los resultados, propone rutinas y recomendaciones para mejorar el descanso y la salud. Está orientado a personas que buscan optimizar sus horas de sueño y aumentar su bienestar diario.
 
-**Ejemplo:**  
-> Este proyecto es una aplicación en Python para la gestión de inventarios de pequeñas tiendas. Permite agregar productos, registrar ventas y generar reportes básicos para facilitar el control de stock.
+---
+
+## 🔍 Objetivos del proyecto
+- Identificar patrones de sueño poco saludables mediante el análisis de datos.
+- Implementar un sistema que registre y visualice los hábitos diarios de descanso.
+- Proponer recomendaciones personalizadas basadas en los resultados obtenidos.
+
+---
+
+## 🧠 Funcionalidades principales
+- Registro de horas de sueño y nivel de descanso (Uso de base de datos).
+- Análisis automático de patrones de sueño.
+- Generación de reportes y gráficas.
+- Sugerencias personalizadas para mejorar la calidad del descanso.
 
 ---
 
@@ -81,7 +91,7 @@ proyecto-xx-nombre/
 ---
 
 ## ✅ Herramientas Implementadas
-- **Lenguaje:** Python 3.x
+- **Lenguaje:** Python 3.9
 - **Librerías principales:** `<pandas, numpy, flask, fastapi, matplotlib, etc.>` (lista → reemplazar)
 - **Otras herramientas:** `<Docker, GitHub Actions (CI), pytest, etc.>` (lista → reemplazar)
 
