@@ -1,8 +1,8 @@
-# 📌 <NOMBRE_DEL_PROYECTO>
+# 📌 <ANÁLISIS Y VISUALIZACIÓN DE PATRONES DEL SUEÑO>
 
 **Curso:** Samsung Innovation Campus – Módulo de Python (Ecuador 2025)  
-**Seccion:** <ecuador03 | ecuador04>  
-**Carpeta:** `/<ecuador03 o ecuador04>/<proyecto-xx-nombre>`
+**Seccion:** <ecuador03>  
+**Carpeta:** `/<ecuador03>/<proyecto-xx-ANÁLISIS Y VISUALIZACIÓN DE PATRONES DEL SUEÑO >`
 
 ---
 
