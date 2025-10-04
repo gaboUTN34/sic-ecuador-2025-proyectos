@@ -16,7 +16,7 @@
 ---
 
 ## 📝 Descripción del Proyecto
-Este proyecto es un programa de visualización y análisis de los puntos WiFi municipales de Quito el cual facilita el acceso a información de conectividad pública con el propósito de identificar brechas de cobertura y optimizar recursos beneficiando a ciudadanos sin acceso a datos móviles y conexión a internet.
+Este proyecto es un programa de visualización y análisis de los puntos WiFi municipales del Distrito Metropolitano de Quito el cual facilita el acceso a información de conectividad pública con el propósito de identificar brechas de cobertura y optimizar recursos beneficiando a ciudadanos sin acceso a datos móviles y conexión a internet.
 
 ## ⚙️ Instrucciones de Instalación y Ejecución
 
