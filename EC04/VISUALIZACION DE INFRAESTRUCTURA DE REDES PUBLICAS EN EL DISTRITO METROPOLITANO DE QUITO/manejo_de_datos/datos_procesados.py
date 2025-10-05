@@ -46,6 +46,10 @@ def guardar_datos_procesados(df, ruta_salida):
     para que el uso posterior en los otros módulos.
     """
     if df is not None:
+        if os.path.exists(ruta_salida):
+            print(f"Advertencia: El archivo ya existe en {ruta_salida}.")
+            print("El archivo no se sobreescribirá.\n") 
+            return False
         try:
             df.to_csv(ruta_salida, index=False)
             print(f"Datos procesados guardados exitosamente en: {ruta_salida}")
