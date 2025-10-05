@@ -24,7 +24,7 @@ app.layout = html.Div([
 
     # Sección: Gráficos estadísticos
     html.Div([
-        html.H2("Estadísticas de cobertura"),
+        html.H2("Estadísticas de cobertura en la ciudad"),
         html.Iframe(
 
         )
@@ -32,15 +32,15 @@ app.layout = html.Div([
 
     # Sección: Mapa interactivo
     html.Div([
-        html.H2("Mapa de Puntos WiFi"),
+        html.H2("Mapa de los puntos WiFi existentes"),
         html.Iframe(
 
         )
     ]),
 
-    # Sección: Zonas Prioritarias
+    # Sección: Posibles zonas prioritarias
     html.Div([
-        html.H2("Zonas Prioritarias para Expansión"),
+        html.H2("Posibles zonas prioritarias"),
         html.Iframe(
 
         )
