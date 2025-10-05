@@ -9,8 +9,8 @@
 ## 👥 Integrantes del Grupo
 - Jaime Andrés Estrada 
 - William Denilson Vera
-- Nombre Apellido 
-- Nombre Apellido 
+- Daniel Heredia 
+- Jhuliet Conza 
 
 ---
 
