@@ -42,7 +42,7 @@ def guardar_datos(df, directorio_salida):
     if df is not None:
         if os.path.exists(directorio_salida):
             print(f"Advertencia: El archivo ya existe en {directorio_salida}.")
-            print("El archivo no se sobreescribirá.") 
+            print("El archivo no se sobreescribirá.\n") 
             return False
         try:
             df.to_csv(directorio_salida, index=False)
