@@ -1,10 +1,9 @@
 import os 
 import pandas as pd
 #====================================================================#
-#             e.             Exportar  Datos                         #
+#             e.    RESULTADOS Y EXPORTACIÓN                         #
 #====================================================================#
-print("\n8. RESULTADOS Y EXPORTACIÓN")
-print("-" * 40)
+
 
 #guardar Dataframes especificos en la ruta indicada
 def guardar_resultados_csv (dfs: dict[str, pd.DataFrame], carpeta_salida: str = "data/resultados"):

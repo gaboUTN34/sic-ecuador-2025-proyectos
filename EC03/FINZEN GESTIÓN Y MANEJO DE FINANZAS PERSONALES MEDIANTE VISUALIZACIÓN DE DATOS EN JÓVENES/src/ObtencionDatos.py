@@ -1,7 +1,9 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+
+#====================================================================#
+#                 1.     Obtencion de datos                          #
+#====================================================================#
 
 def obtener_datos(nombre_archivo):
   # Cambia 'mi_archivo.xlsx' por la ruta real de tu archivo
