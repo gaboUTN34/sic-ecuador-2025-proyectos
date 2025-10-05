@@ -20,7 +20,7 @@ def cargar_datos_no_procesdos(ruta):
         print(f"Error al cargar el archivo CSV: {e}")
         return None
 
-def limpiar_y_estructurar_datos(df):
+def limpiar_estructurar_datos(df):
     """
     Realiza la limpieza esencial y la estandarización de columnas.
     """
@@ -31,7 +31,7 @@ def limpiar_y_estructurar_datos(df):
     df['longitud'] = pd.to_numeric(df['longitud'], errors='coerce')
     print("Tipos de datos geográficos longitud y latitud normalizados.")
     
-    df['administracion_zonal'] = df['zona_administrativa'].astype(str).str.strip().str.upper()
+    df['administracion_zonal'] = df['administracion_zonal'].astype(str).str.strip().str.upper()
     df['parroquia'] = df['parroquia'].astype(str).str.strip().str.upper()
     print("Estandarización exitosa de campos de texto.")
     
@@ -39,3 +39,22 @@ def limpiar_y_estructurar_datos(df):
     df.dropna(subset=['latitud', 'longitud'], inplace=True)
     registros_eliminados = registros_iniciales - len(df)
     return df
+
+def guardar_datos_procesados(df, ruta_salida):
+    """
+    Esta función guarda el DataFrame limpio, procesado
+    para que el uso posterior en los otros módulos.
+    """
+    if df is not None:
+        try:
+            df.to_csv(ruta_salida, index=False)
+            print(f"Datos procesados guardados exitosamente en: {ruta_salida}")
+        except Exception as e:
+            print(f"Error al guardar los datos procesados: {e}")
+
+if __name__ == "__main__":
+    datos_extraidos = cargar_datos_no_procesdos(RUTA_ENTRADA)
+    
+    if datos_extraidos is not None:
+        datos_procesados = limpiar_estructurar_datos(datos_extraidos)
+        guardar_datos_procesados(datos_procesados, RUTA_SALIDA_DATOS_PROCESADOS)
