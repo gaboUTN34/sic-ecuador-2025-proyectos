@@ -1,0 +1,24 @@
+import pandas as pd
+import os 
+
+RUTA_DATOS_PROCESADOS = r"C:\Users\USER-ASUS\Downloads\zonas_puntos_wifi_procesados.csv"
+RUTA_SALIDA_ANALISIS = os.path.join(os.path.dirname(
+    _file_), '..', 'resultados', 'estadisticas_basicas.csv')
+  
+
+def cargar_datos_procesados(ruta):
+    """Carga los datos procesados."""
+    try:
+       df = pd.read_csv(ruta)
+       print("Datos procesados cargados correctamente.\n")
+       return df
+    except FileNotFoundError:
+       print(f"Error:No se encontró el archivo {ruta}.")
+
+
+  def generar_estadisticas(df):
+  
+       
+
+      
+    
