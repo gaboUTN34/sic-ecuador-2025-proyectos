@@ -1,7 +1,8 @@
 """
 Módulo: Adquisición de Datos
------------------------------
-Encargado de cargar y realizar una exploración inicial del dataset de  calidad del aire (PM2.5 y otros contaminantes)
+Encargado de cargar y realizar una exploración inicial del dataset. Incluye utilidades para listar archivos de datos, cargar
+archivos CSV en DataFrames de pandas, verificar la validez de los datos cargados y mostrar información relevante sobre el
+contenido y estructura de los DataFrames.
 """
 
 import os 
@@ -88,6 +89,11 @@ def get_dataframe_shape(df: pd.DataFrame):
     if verify_dataframe(df):
         print(f"\n📐 Dimensiones del DataFrame: {df.shape[0]} filas y {df.shape[1]} columnas")
 
-
+def get_missing_values(df: pd.DataFrame):
+    """ Muestra el número de valores faltantes por columna en el DataFrame """
+    if verify_dataframe(df):
+        print("\n❗ Valores faltantes por columna:")
+        missing_values = df.isnull().sum()
+        print(missing_values)
 
 
