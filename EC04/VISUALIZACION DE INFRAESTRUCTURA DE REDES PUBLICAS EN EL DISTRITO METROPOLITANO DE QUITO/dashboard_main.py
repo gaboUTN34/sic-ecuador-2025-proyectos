@@ -8,12 +8,12 @@
 
 # Módulos principales de este script.
 import dash
-from dash import html
+from dash import html, dcc
 
 # TODO: Módulos realizados por el equipo, para la presentación de los datos (completar).
 # TODO: Cuando estén completos los módulos del equipo, quitar los comentarios.
 # por ejemplo:
-# from manejo_de_datos import datos_procesados
+from manejo_de_datos import *
 
 # TODO: Cargar y procesar datos
 
@@ -27,26 +27,44 @@ app.layout = html.Div([
     # Sección: Gráficos estadísticos
     html.Div([
         html.H2("Estadísticas de cobertura en la ciudad"),
+        html.Label("\nFiltrar por sector"),
+        dcc.Dropdown(
+            id="sector",
+            options=[{'label':'Todos', 'value':'all'}],
+            value = 'all'
+        ),
         html.Iframe(
-
-        )
-    ]),
+            src="https://www.example.net"
+        ),
+    ], style={'width': '80%', 'margin': '20px auto'}),
 
     # Sección: Mapa interactivo
     html.Div([
         html.H2("Mapa de los puntos WiFi existentes"),
+        html.Label("\nFiltrar por parroquia"),
+        dcc.Dropdown(
+            id="parroquia",
+            options=[{'label':'Todos', 'value':'all'}],
+            value = 'all'
+        ),
         html.Iframe(
-
+            src="https://www.example.com"
         )
-    ]),
+    ], style={'width': '80%', 'margin': '20px auto'}),
 
     # Sección: Posibles zonas prioritarias
     html.Div([
         html.H2("Posibles zonas prioritarias"),
+        html.Label("\nFiltrar por punto más cercano"),
+        dcc.Dropdown(
+            id="cercania",
+            options=[{'label':'Todos', 'value':'all'}],
+            value = 'all'
+        ),
         html.Iframe(
-
+            src="https://www.example.com"
         )
-    ]),
+    ], style={'width': '80%', 'margin': '20px auto'}),
 ])
 
 # TODO: al finalizar el código cambiar la condición a False.
