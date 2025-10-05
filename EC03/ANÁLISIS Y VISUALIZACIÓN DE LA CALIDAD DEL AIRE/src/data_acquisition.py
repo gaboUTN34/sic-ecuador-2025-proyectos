@@ -7,6 +7,7 @@ Encargado de cargar y realizar una exploración inicial del dataset de  calidad 
 import os 
 import pandas as pd
 import warnings
+import IPython.display as display
 
 warnings.filterwarnings('ignore')  # Ignorar advertencias para una salida más limpia
 
@@ -52,10 +53,12 @@ def load_data_csv(file_path: str) -> pd.DataFrame:
         return None
 
 
+
 def preview_data(df: pd.DataFrame, num_rows: int = 5) -> None:
-    """ Muestra iformación básica del DataFrame (estructura, columnas, tipos de datos, valores nulos)"""
-    
+    """ Muestra las filas del DataFrame """
     if df.empty:
         print("❌ El DataFrame está vacío.")
         return
-    
+    print(f"\n🔍 Primeras {num_rows} filas del DataFrame:")
+    display.display(df.head(num_rows))
+
