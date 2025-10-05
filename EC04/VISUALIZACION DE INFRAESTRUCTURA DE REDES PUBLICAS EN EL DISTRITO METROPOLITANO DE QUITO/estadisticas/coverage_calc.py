@@ -20,7 +20,7 @@ def cargar_datos(ruta):
 def calcular_densidad(df):
     """
     Calcula densidad aproximada de puntos WiFi por parroquia.
-    Nota: Esto puede mejorarse con shapefiles y coordenadas reales.
+
     """
     print("Calculando densidad aproximada de cobertura...\n")
 
