@@ -8,7 +8,7 @@
 
 ## 👥 Integrantes del Grupo
 - Jaime Andrés Estrada 
-- Nombre Apellido 
+- William Denilson Vera
 - Nombre Apellido 
 - Nombre Apellido 
 
