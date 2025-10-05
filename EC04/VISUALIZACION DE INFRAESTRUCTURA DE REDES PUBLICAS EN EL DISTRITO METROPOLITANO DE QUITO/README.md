@@ -76,7 +76,7 @@ VISUALIZACION DE INFRAESTRUCTURA DE REDES PUBLICAS EN EL DISTRITO METROPOLITANO 
 
 ## ✅ Herramientas Implementadas
 - **Lenguaje:** Python 3.13.x
-- **Librerías principales:** `<pandas, numpy, requests, matplotlib, seaborn, folium, dash, flask, scipy>`
+- **Librerías principales:** `<pandas, numpy, requests, matplotlib, seaborn, folium, dash, scipy>`
 - **Otras herramientas:** `<pytest>`
 
 ---
