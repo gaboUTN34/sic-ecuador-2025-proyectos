@@ -83,6 +83,11 @@ def get_dataframe_info(df: pd.DataFrame):
         print("\n📊 Información del DataFrame:")
         df.info()
 
+def get_dataframe_shape(df: pd.DataFrame):
+    """ Muestra las dimensiones (número de filas y columnas) del DataFrame """
+    if verify_dataframe(df):
+        print(f"\n📐 Dimensiones del DataFrame: {df.shape[0]} filas y {df.shape[1]} columnas")
+
 
 
 
