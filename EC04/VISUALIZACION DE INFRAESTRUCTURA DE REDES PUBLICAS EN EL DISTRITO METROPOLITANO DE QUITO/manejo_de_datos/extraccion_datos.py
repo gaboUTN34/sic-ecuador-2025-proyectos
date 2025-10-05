@@ -33,20 +33,20 @@ def extraer_datos(url):
         print(f"Error al conectar con la API: {e}")
         return None
     
-def guardar_datos(df, directorio_salida):
+def guardar_datos(df, ruta_salida):
     
     """
     Algoritmo de la funcion que guarda los datos sin
     procesar para uso posterior (archivo CSV).
     """
     if df is not None:
-        if os.path.exists(directorio_salida):
-            print(f"Advertencia: El archivo ya existe en {directorio_salida}.")
+        if os.path.exists(ruta_salida):
+            print(f"Advertencia: El archivo ya existe en {ruta_salida}.")
             print("El archivo no se sobreescribirá.\n") 
             return False
         try:
-            df.to_csv(directorio_salida, index=False)
-            print(f"Datos sin procesar guardados en: {directorio_salida}\n")
+            df.to_csv(ruta_salida, index=False)
+            print(f"Datos sin procesar guardados en: {ruta_salida}\n")
             return True
         except Exception as e:
             print(f"Error al guardar los datos en archivo CSV: {e}")
