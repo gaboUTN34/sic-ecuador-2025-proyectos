@@ -2,9 +2,9 @@ import pandas as pd
 import os
 import numpy as np
 
-RUTA_DATOS_PROCESADOS = r"C:\Users\USER-ASUS\Downloads\zonas_puntos_wifi_procesados.csv"
-RUTA_SALIDA_COBERTURA = os.path.join(os.path.dirname(
-    __file__), '..', 'resultados', 'cobertura_prioritaria.csv')
+RUTA_BASE = os.path.dirname(os.path.dirname(__file__))
+RUTA_DATOS_PROCESADOS = os.path.join(RUTA_BASE,'manejo_de_datos', 'zonas_puntos_wifi_procesados.csv')
+RUTA_SALIDA_COBERTURA = os.path.join(os.path.dirname(__file__), 'resultados', 'cobertura_prioritaria.csv')
 
 
 def cargar_datos(ruta):
