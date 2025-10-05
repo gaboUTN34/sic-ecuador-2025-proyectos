@@ -11,7 +11,9 @@ import dash
 from dash import html
 
 # TODO: Módulos realizados por el equipo, para la presentación de los datos (completar).
-
+# TODO: Cuando estén completos los módulos del equipo, quitar los comentarios.
+# por ejemplo:
+# from manejo_de_datos import datos_procesados
 
 # TODO: Cargar y procesar datos
 
