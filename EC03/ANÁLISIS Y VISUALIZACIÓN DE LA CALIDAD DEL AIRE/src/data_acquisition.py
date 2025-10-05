@@ -7,9 +7,23 @@ Encargado de cargar y realizar una exploración inicial del dataset de  calidad 
 import os 
 import pandas as pd
 import warnings
-import IPython.display as display
+import IPython.display as d  # Mostrar DataFrames de manera interactiva en notebooks
 
 warnings.filterwarnings('ignore')  # Ignorar advertencias para una salida más limpia
+
+def verify_dataframe(df: pd.DataFrame) -> bool:
+    """ 
+    Verifica si el DataFrame está vacío o no fue cargado correctamente.
+
+    Params:
+    df (pd.DataFrame): El DataFrame a verificar.
+    Return:
+    bool: True si el DataFrame es válido, False si está vacío o no fue cargado.
+    """
+    if df is None or df.empty:
+        print("❌ El DataFrame está vacío o no fue cargado correctamente.")
+        return False
+    return True
 
 def list_data_files(path: str) -> list[str]:
     """
@@ -54,11 +68,21 @@ def load_data_csv(file_path: str) -> pd.DataFrame:
 
 
 
-def preview_data(df: pd.DataFrame, num_rows: int = 5) -> None:
+def preview_data(df: pd.DataFrame, num_rows: int = 5):
     """ Muestra las filas del DataFrame """
-    if df.empty:
-        print("❌ El DataFrame está vacío.")
-        return
-    print(f"\n🔍 Primeras {num_rows} filas del DataFrame:")
-    display.display(df.head(num_rows))
+    if verify_dataframe(df):
+        print(f"\n🔍 Primeras {num_rows} filas del DataFrame:")
+        d.display(df.head(num_rows))
+
+def get_dataframe_info(df: pd.DataFrame):
+    """ Muestra información general del DataFrame (columnas, tipos de datos)"""
+    if verify_dataframe(df):
+        print("\n🧱 Columnas del Dataframe:")
+        print(list(df.columns))
+    
+        print("\n📊 Información del DataFrame:")
+        df.info()
+
+
+
 
