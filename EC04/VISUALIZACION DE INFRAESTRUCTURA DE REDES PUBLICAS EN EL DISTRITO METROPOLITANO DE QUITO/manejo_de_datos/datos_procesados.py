@@ -19,3 +19,23 @@ def cargar_datos_no_procesdos(ruta):
     except Exception as e:
         print(f"Error al cargar el archivo CSV: {e}")
         return None
+
+def limpiar_y_estructurar_datos(df):
+    """
+    Realiza la limpieza esencial y la estandarización de columnas.
+    """
+    df.columns = ['nombre', 'latitud', 'longitud', 'administracion_zonal', 'parroquia']
+    print("Se ha renombrado las columnas.")
+    
+    df['latitud'] = pd.to_numeric(df['latitud'], errors='coerce')
+    df['longitud'] = pd.to_numeric(df['longitud'], errors='coerce')
+    print("Tipos de datos geográficos longitud y latitud normalizados.")
+    
+    df['administracion_zonal'] = df['zona_administrativa'].astype(str).str.strip().str.upper()
+    df['parroquia'] = df['parroquia'].astype(str).str.strip().str.upper()
+    print("Estandarización exitosa de campos de texto.")
+    
+    registros_iniciales = len(df)
+    df.dropna(subset=['latitud', 'longitud'], inplace=True)
+    registros_eliminados = registros_iniciales - len(df)
+    return df
