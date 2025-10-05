@@ -2,15 +2,15 @@
 
 **Curso:** Samsung Innovation Campus – Módulo de Python (Ecuador 2025)  
 **Seccion:** <ecuador03 | ecuador04>  
-**Carpeta:** `/<ecuador03 o ecuador04>/<proyecto-xx-nombre>`
+**Carpeta:** `/<ecuador03>/<proyecto-xx-nombre>`
 
 ---
 
 ## 👥 Integrantes del Grupo
-- Nombre Apellido 
-- Nombre Apellido 
-- Nombre Apellido 
-- Nombre Apellido 
+- Ayman El Salous
+- Krister Figueroa
+- Steve Robinson
+- Diego Campos
 
 ---
 
