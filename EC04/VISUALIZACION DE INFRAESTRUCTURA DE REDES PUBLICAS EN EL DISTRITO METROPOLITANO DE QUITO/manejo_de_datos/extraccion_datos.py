@@ -17,7 +17,7 @@ def extraer_datos(url):
     print("CONECTANDO A LA API...")
     print("="*30)
     try:
-        response = requests.get(URL_API)
+        response = requests.get(url)
         data = response.json()
         
         zonas_wifi = data.get("resultados", [])
