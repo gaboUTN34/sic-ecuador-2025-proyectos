@@ -34,6 +34,30 @@ df["Categoria_BMI"] = Categoria_bmi_lista
 print("="*60)
 print("PUNTAJE DE RIESGO")
 print("="*60)
+""""Función en donde se establecera un puntaje que permitira en base
+de diferentes mètricas del dataset para medir el nivel de riesgo de 
+sufrir un Accidente Cerebrovascular (ACV)"""
+
+def puntaje_riesgo(df):
+    df["risk_score"] = 0
+    df["risk_score"] += (df['Grupo_Etario'] == 'Adulto Mayor').astype(int)
+    df["risk_score"] += (df['Categoria_BMI'] == 'Obesidad').astype(int)
+    df['risk_score'] += (df['cholesterol'] > 200).astype(int)
+    df['risk_score'] += (df['hypertension'] == 1).astype(int)
+    df['risk_score'] += (df['diabetes'] == 1).astype(int)
+
+    # Corrección: Aplicar la lógica de nivel de riesgo usando apply
+    df["nivel"] = df["risk_score"].apply(lambda x: "alto riesgo" if x == 5 else "bajo riesgo")
+
+    return df 
+
+dfinal = puntaje_riesgo(df)
+if dfinal is not None:
+    # Corrección: Cambiar df_final por dfinal y corregir nombres de columnas
+    print("\n--- Vista previa del DataFrame final ---")
+    print(dfinal[['age', 'Grupo_Etario', 'bmi', 'Categoria_BMI', 'hypertension', 'diabetes', 'risk_score', 'nivel']])
+
+
 
 def clasificar_glucosa(df):
     normales = []
@@ -66,29 +90,6 @@ df_normales, df_prediabetes, df_nuevo_diabetes, df_con_diabetes = clasificar_glu
 print("="*60)
 print("PACIENTES CLASIFICADOS MEDICIÓN DE GLUCOSA")
 print("="*60)
-
-""""Función en donde se establecera un puntaje que permitira en base
-de diferentes mètricas del dataset para medir el nivel de riesgo de 
-sufrir un Accidente Cerebrovascular (ACV)"""
-
-def puntaje_riesgo(df):
-    df["risk_score"] = 0
-    df["risk_score"] += (df['Grupo_Etario'] == 'Adulto Mayor').astype(int)
-    df["risk_score"] += (df['Categoria_BMI'] == 'Obesidad').astype(int)
-    df['risk_score'] += (df['cholesterol'] > 200).astype(int)
-    df['risk_score'] += (df['hypertension'] == 1).astype(int)
-    df['risk_score'] += (df['diabetes'] == 1).astype(int)
-
-    # Corrección: Aplicar la lógica de nivel de riesgo usando apply
-    df["nivel"] = df["risk_score"].apply(lambda x: "alto riesgo" if x == 5 else "bajo riesgo")
-
-    return df 
-
-dfinal = puntaje_riesgo(df)
-if dfinal is not None:
-    # Corrección: Cambiar df_final por dfinal y corregir nombres de columnas
-    print("\n--- Vista previa del DataFrame final ---")
-    print(dfinal[['age', 'Grupo_Etario', 'bmi', 'Categoria_BMI', 'hypertension', 'diabetes', 'risk_score', 'nivel']])
 
 print("Cantidad de pacientes normales:", len(df_normales))
 print("Normales:")
