@@ -9,13 +9,29 @@
 # Módulos principales de este script.
 import dash
 from dash import html, dcc
+import subprocess, sys, os
 
-# TODO: Módulos realizados por el equipo, para la presentación de los datos (completar).
-# TODO: Cuando estén completos los módulos del equipo, quitar los comentarios.
-# por ejemplo:
-from manejo_de_datos import *
+# TODO: ejecutar los módulos del equipo
+def ejecutar_extraccion_datos():
+    try:
+        # Obtener la ruta del script
+        ruta_extraccion = os.path.join('manejo_de_datos', 'extraccion_datos.py')
 
-# TODO: Cargar y procesar datos
+        # Ejecutar el script
+        resultado = subprocess.run([sys.executable, ruta_extraccion],
+                                   capture_output=True, text=True, check=True)
+
+        if resultado.stdout:
+            print(resultado.stdout)
+
+    except subprocess.CalledProcessError as e:
+        print(f"Error en extracción de datos: {e}")
+        if e.stderr:
+            print(f"Error: {e.stderr}")
+
+# Ejecutar la extracción al iniciar el dashboard
+print("Iniciando extracción de datos...")
+ejecutar_extraccion_datos()
 
 # Inicializar la app Dash
 app = dash.Dash(__name__)
@@ -69,4 +85,4 @@ app.layout = html.Div([
 
 # TODO: al finalizar el código cambiar la condición a False.
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
