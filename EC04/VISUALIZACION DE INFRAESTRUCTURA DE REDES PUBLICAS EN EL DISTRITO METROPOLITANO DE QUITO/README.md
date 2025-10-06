@@ -37,15 +37,13 @@ Este proyecto es un programa de visualización y análisis de los puntos WiFi mu
    pip install -r requirements.txt
    ```
 
-3. Ejecutar la aplicación (ejemplo):
+3. Ejecutar la aplicación:
    ```bash
-   python main.py
+   python dashboard_main.py
    ```
-   O, si es una aplicación web:
-   ```bash
-   uvicorn app.main:app --reload   
-   ```
-   Reemplaza los comandos anteriores por los específicos de tu proyecto.
+
+Nota: después de ejecutar la aplicación, abrir el dashboard accediendo a:
+http://127.0.0.1:8050/
 
 4. Ejecutar pruebas (si aplica):
    ```bash
@@ -57,19 +55,25 @@ Este proyecto es un programa de visualización y análisis de los puntos WiFi mu
 ## 📂 Estructura del proyecto:
 ```
 VISUALIZACION DE INFRAESTRUCTURA DE REDES PUBLICAS EN EL DISTRITO METROPOLITANO DE QUITO/
-├── 📂 analisis_de_datos/
-│   ├── raw_data.py             # Descarga de la API
-│   └── processed_data.py       # Limpieza de los datos
-├── 📂 dashboard/                   
-│   ├── basic_stats.py          # Estadísticas básicas
-│   └── coverage_calc.py        # Cálculo de la cobertura WIFI
-├── 📂 manejo_de_datos/                   
-│   ├── datos_procesados.py     # Gráficos estáticos
-│   └── extraccion_datos.py     # Mapas interactivos
-├── 📂 visualizacion/                   
-│   └── visualizador.py         # Dashboard para mostrar los datos
-├── requirements.txt            # Dependencias del proyecto
-└── README.md                   # Este archivo.
+├── 📂 estadisticas/
+│   ├── 📂 resultados                            # Carpeta que contiene los resultados estadísticos.
+│   │   ├── cobertura_prioritaria.csv            # Declara como módulo a la carpeta para utilizar sus datos.
+│   │   └── estadisticas_basicas.csv             # Declara como módulo a la carpeta para utilizar sus datos.
+│   ├── __init__.py                              # Declara como módulo a la carpeta para utilizar sus datos.
+│   ├── basic_stats.py                           # Script para calcular las estadísticas básicas.
+│   └── coverage_calc.py                         # Script para calcular la cobertura prioritaria.
+├── 📂 manejo_de_datos/
+│   ├── __init__.py                              # Declara como módulo a la carpeta para utilizar sus datos.   
+│   ├── datos_procesados.py                      # Script de procesamiento de los datos.
+│   ├── extraccion_datos.py                      # Script de extracción de los datos desde la API.
+│   ├── zonas_puntos_wifi.csv                    # Archivo CSV con los datos de la API (zonas wifi).
+│   └── zonas_puntos_wifi_procesados.csv         # Archivo CSV con los datos procesados de las zonas wifi.
+├── 📂 visualizacion/
+│   ├── __init__.py                              # Declara como módulo a la carpeta para utilizar sus datos.              
+│   └── visualizador.py                          # Gráficos de los resultados y mapa.
+├── dashboard_main.py                            # Aplicación principal (dashboard)
+├── requirements.txt                             # Dependencias del proyecto
+└── README.md                                    # Este archivo.
 ```
 
 ---
