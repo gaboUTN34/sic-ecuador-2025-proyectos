@@ -1,15 +1,23 @@
 import pandas as pd
 
 # Leer dataset local
+import pandas as pd
+
 def cargar_y_preparar_datos(ruta):
     try:
         df = pd.read_csv(ruta)
-        
-
     except FileNotFoundError:
         print(f"No se encontró el archivo en la ruta: {ruta}")
         return None
-    
+
+    # Validar que las columnas necesarias existan
+    columnas_necesarias = ["age", "bmi", "patient_id", "Name", "systolic_bp", "diastolic_bp", 
+                          "cholesterol", "hypertension", "diabetes", "glucose", "creatinine"]
+    for col in columnas_necesarias:
+        if col not in df.columns:
+            print(f"Error: la columna '{col}' no está en el dataset.")
+            return None
+
     # Clasificación por edad
     Grupo_etario_lista = []
     Categoria_bmi_lista = []
@@ -24,7 +32,7 @@ def cargar_y_preparar_datos(ruta):
             Grupo_etario_lista.append("Adulto")
         else:
             Grupo_etario_lista.append("Adulto Mayor")
-        
+
         bmi = row['bmi']
         if bmi < 18.5:
             Categoria_bmi_lista.append("Bajo Peso")
@@ -38,34 +46,59 @@ def cargar_y_preparar_datos(ruta):
     df["Grupo_Etario"] = Grupo_etario_lista
     df["Categoria_BMI"] = Categoria_bmi_lista
 
-    return df  
+    return df
+
 
 def buscar_paciente(df, patient_id=None, nombre_completo=None):
     """
     Busca un paciente por su ID o por su nombre completo en la columna 'name'.
+    La búsqueda por nombre no es sensible a mayúsculas.
     """
+    if df is None:
+        print("Error: el DataFrame está vacío o no se cargó correctamente.")
+        return None
+
     if patient_id is not None:
         paciente = df[df['patient_id'] == patient_id]
         if not paciente.empty:
             print(f"\nPaciente encontrado por ID: {patient_id}")
             return paciente.iloc[0]
-            
-    elif nombre_completo is not None:
-        # Búsqueda directa y no sensible a mayúsculas en la columna 'name'.
-        paciente = df[df['name'].str.lower() == nombre_completo.lower()]
+        else:
+            print(f"\nNo se encontró paciente con ID: {patient_id}")
+
+    if nombre_completo is not None:
+        paciente = df[df['Name'].str.lower() == nombre_completo.lower()]
         if not paciente.empty:
             print(f"\nPaciente encontrado por nombre: '{nombre_completo}'")
-            # Si hubiera múltiples pacientes con el mismo nombre, devolvemos el primero.
             return paciente.iloc[0]
-            
-    print(f"\nNo se encontró al paciente con los datos proporcionados.")
+        else:
+            print(f"\nNo se encontró paciente con nombre: '{nombre_completo}'")
+
     return None
+
 
 
 #Riesgos Cardiovasculares y de Circulación-----------------------------------------------------------
 print("="*60)
 print("Riesgos Cardiovasculares y de Circulación")
 print("="*60)
+
+def evaluar_hipertension(paciente):
+    """1. Evalúa la presión arterial y la clasifica por etapas."""
+    sistolica, diastolica = paciente['systolic_bp'], paciente['diastolic_bp']
+    
+    if sistolica > 180 or diastolica > 120:
+        return "Crisis Hipertensiva", "Atención Médica de Emergencia"
+    elif sistolica >= 140 or diastolica >= 90:
+        return "Hipertensión Grado 2", "Cardiólogo"
+    elif 130 <= sistolica <= 139 or 80 <= diastolica <= 89:
+        return "Hipertensión Grado 1", "Cardiólogo"
+    elif 120 <= sistolica <= 129 and diastolica < 80:
+        return "Presión Arterial Elevada", "Monitoreo y cambios en estilo de vida"
+    else:
+        return "Presión Arterial Normal", None
+
+
 print("Riesgo de Enfermedad Coronaria (Aterosclerosis)")
 
 """"Evalúa el riesgo de enfermedad coronaria (aterosclerosis) contando factores de riesgo clave.
@@ -75,30 +108,42 @@ def evaluar_riesgo_coronario(paciente):
     factores = 0
     factores_encontrados = []
 
-#Análisis Edad
+    # Análisis Edad
     if paciente["age"] > 55:
-     factores += 1
-     factores_encontrados.append("Edad>55")
-#Análisis colesterol
+        factores += 1
+        factores_encontrados.append("Edad > 55")
+    # Análisis colesterol
     if paciente["cholesterol"] > 200:
         factores += 1
         factores_encontrados.append("Colesterol mayor a 200")
-#Análisis de Presión
-    if paciente["hypertension"] == 1 or paciente["systolic_bp"] >= 13:
+    # Análisis de Presión
+    if paciente["hypertension"] == 1 or paciente["systolic_bp"] >= 130:
         factores += 1
-        factores_encontrados.append("Presion alta")
-#Diabetes
+        factores_encontrados.append("Presión alta")
+    # Diabetes
     if paciente["diabetes"] == 1:
         factores += 1
         factores_encontrados.append("Diabetes")
     
+    # Nivel de riesgo
     riesgo = "Bajo"
     if factores >= 3:
         riesgo = "Alto"
     elif factores == 2:
         riesgo = "Moderado"
     
-    return f"Riesgo de Enfermedad Coronaria: {riesgo} ({factores}/4 factores: {', '.join(factores_encontrados)})"
+    descripcion = f"Riesgo de Enfermedad Coronaria: {riesgo} ({factores}/4 factores: {', '.join(factores_encontrados)})"
+
+    # Agrega una recomendación acorde
+    if riesgo == "Alto":
+        recomendacion = "Cardiólogo"
+    elif riesgo == "Moderado":
+        recomendacion = "Revisión médica general"
+    else:
+        recomendacion = None
+
+    return descripcion, recomendacion
+
 
 
 
@@ -106,6 +151,20 @@ def evaluar_riesgo_coronario(paciente):
 print("="*60)
 print("Trastornos Metabólicos")
 print("="*60)
+
+def evaluar_glucosa(paciente):
+    """3. Evalúa el estado de la glucosa para detectar Prediabetes o Diabetes."""
+    glucosa = paciente['glucose']
+    
+    if paciente['diabetes'] == 1:
+        return "Diagnóstico Previo de Diabetes", "Endocrinólogo"
+    elif glucosa >= 126:
+        return "Posible Diabetes (Glucosa en ayunas alta)", "Endocrinólogo"
+    elif 100 <= glucosa < 126:
+        return "Posible Prediabetes", "Médico Internista / Nutricionista"
+    else:
+        return "Glucosa Normal", None
+    
 """def clasificar_glucosa(df):
     normales = []
     prediabetes = []
@@ -198,7 +257,10 @@ def generar_informe_paciente(paciente):
     evaluaciones = [
         evaluar_riesgo_coronario(paciente),
         evaluar_sindrome_metabolico(paciente),
-        evaluar_riesgo_renal(paciente)
+        evaluar_riesgo_renal(paciente),
+        evaluar_glucosa(paciente),
+        evaluar_hipertension(paciente)
+
     ]
 
     for riesgo, recomendacion in evaluaciones:
