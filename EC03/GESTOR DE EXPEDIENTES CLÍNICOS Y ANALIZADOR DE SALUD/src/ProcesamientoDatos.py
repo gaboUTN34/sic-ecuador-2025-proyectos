@@ -1,7 +1,44 @@
 import pandas as pd
 
 # Leer dataset local
-df = pd.read_csv("EC03/GESTOR DE EXPEDIENTES CLÍNICOS Y ANALIZADOR DE SALUD/data/dataset_final.csv")  # ajusta el nombre si es diferente
+def cargar_y_preparar_datos(ruta):
+    try:
+        df = pd.read_csv(ruta)
+        
+
+    except FileNotFoundError:
+        print(f"No se encontró el archivo en la ruta: {ruta}")
+        return None
+    
+    # Clasificación por edad
+    Grupo_etario_lista = []
+    Categoria_bmi_lista = []
+
+    for i, row in df.iterrows():
+        edad = row["age"]
+        if edad < 18:
+            Grupo_etario_lista.append("Niño/Adolescente")
+        elif 18 <= edad < 40:
+            Grupo_etario_lista.append("Adulto Joven")
+        elif 40 <= edad < 65:
+            Grupo_etario_lista.append("Adulto")
+        else:
+            Grupo_etario_lista.append("Adulto Mayor")
+        
+        bmi = row['bmi']
+        if bmi < 18.5:
+            Categoria_bmi_lista.append("Bajo Peso")
+        elif 18.5 <= bmi < 25:
+            Categoria_bmi_lista.append("Normal")
+        elif 25 <= bmi < 30:
+            Categoria_bmi_lista.append("Sobrepeso")
+        else:
+            Categoria_bmi_lista.append("Obesidad")
+
+    df["Grupo_Etario"] = Grupo_etario_lista
+    df["Categoria_BMI"] = Categoria_bmi_lista
+
+    return df  
 
 def buscar_paciente(df, patient_id=None, nombre_completo=None):
     """
@@ -24,33 +61,6 @@ def buscar_paciente(df, patient_id=None, nombre_completo=None):
     print(f"\nNo se encontró al paciente con los datos proporcionados.")
     return None
 
-#Columnas adicionales utiles para futuros análisis
-Grupo_etario_lista = []
-Categoria_bmi_lista =[]
-
-for i, row in df.iterrows():
-    edad = row["age"]
-    if edad < 18:
-        Grupo_etario_lista.append("Niño/Adolescente")
-    elif 18 <= edad < 40:
-        Grupo_etario_lista.append("Adulto Joven")
-    elif 40 <= edad < 65:
-        Grupo_etario_lista.append("Adulto")
-    else:
-        Grupo_etario_lista.append("Adulto Mayor")
-    
-    bmi = row['bmi']
-    if bmi < 18.5:
-        Categoria_bmi_lista.append("Bajo Peso")
-    elif 18.5 <= bmi < 25:
-        Categoria_bmi_lista.append("Normal")
-    elif 25 <= bmi < 30:
-        Categoria_bmi_lista.append("Sobrepeso")
-    else:
-        Categoria_bmi_lista.append("Obesidad")
-        
-df["Grupo_Etario"] = Grupo_etario_lista
-df["Categoria_BMI"] = Categoria_bmi_lista
 
 #Riesgos Cardiovasculares y de Circulación-----------------------------------------------------------
 print("="*60)
@@ -96,7 +106,7 @@ def evaluar_riesgo_coronario(paciente):
 print("="*60)
 print("Trastornos Metabólicos")
 print("="*60)
-def clasificar_glucosa(df):
+"""def clasificar_glucosa(df):
     normales = []
     prediabetes = []
     nuevo_diabetes = []
@@ -142,7 +152,7 @@ print(df_nuevo_diabetes.head(), "\n")
 
 print("Cantidad de pacientes con diabetes diagnosticada:", len(df_con_diabetes))
 print("Prediagnosticados con Diabetes:")
-print(df_con_diabetes.head(), "\n")
+print(df_con_diabetes.head(), "\n")"""
 
 def evaluar_sindrome_metabolico(paciente):
     """Evalúa si el paciente cumple criterios para Síndrome Metabólico."""
@@ -170,7 +180,44 @@ def evaluar_riesgo_renal(paciente):
             return "Riesgo Renal (Creatinina elevada)", "Nefrólogo"
     return None, None
 
+cargar_y_preparar_datos("EC03/GESTOR DE EXPEDIENTES CLÍNICOS Y ANALIZADOR DE SALUD/data/dataset_final.csv")
 
+
+#Informe final------------------------------------------------------------------------------
+def generar_informe_paciente(paciente):
+    """
+    Llama a todas las funciones de evaluación y genera un informe consolidado.
+    """
+    print(f"\n--- INFORME DE SALUD PARA EL PACIENTE ID: {int(paciente['patient_id'])} ---")
+    print("-" * 60)
+    
+    riesgos = []
+    recomendaciones = set() # Usamos un set para evitar especialistas duplicados
+
+    # Ejecutar cada una de las 5 evaluaciones
+    evaluaciones = [
+        evaluar_riesgo_coronario(paciente),
+        evaluar_sindrome_metabolico(paciente),
+        evaluar_riesgo_renal(paciente)
+    ]
+
+    for riesgo, recomendacion in evaluaciones:
+        if riesgo:
+            riesgos.append(riesgo)
+        if recomendacion:
+            recomendaciones.add(recomendacion)
+            
+    print("[ RESULTADOS Y RIESGOS DETECTADOS ]")
+    for r in riesgos:
+        print(f"- {r}")
+        
+    print("\n[ RECOMENDACIONES ]")
+    if recomendaciones:
+        for rec in sorted(list(recomendaciones)):
+            print(f"- Se sugiere consulta con: {rec}")
+    else:
+        print("- Mantener controles de rutina y estilo de vida saludable.")
+    print("-" * 60)
 
 
 
