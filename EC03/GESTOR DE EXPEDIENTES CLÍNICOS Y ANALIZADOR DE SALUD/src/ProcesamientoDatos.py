@@ -263,11 +263,19 @@ def generar_informe_paciente(paciente):
 
     ]
 
-    for riesgo, recomendacion in evaluaciones:
-        if riesgo:
-            riesgos.append(riesgo)
-        if recomendacion:
-            recomendaciones.add(recomendacion)
+    for resultado in evaluaciones:
+    # Verificar que resultado sea una tupla o lista de tamaño 2
+        if isinstance(resultado, (tuple, list)) and len(resultado) == 2:
+            riesgo, recomendacion = resultado
+        else:
+            print("Error: una función no devolvió una tupla de 2 elementos, se ignora:", resultado)
+            continue
+
+    if riesgo:
+        riesgos.append(riesgo)
+    if recomendacion:
+        recomendaciones.add(recomendacion)
+
             
     print("[ RESULTADOS Y RIESGOS DETECTADOS ]")
     for r in riesgos:
