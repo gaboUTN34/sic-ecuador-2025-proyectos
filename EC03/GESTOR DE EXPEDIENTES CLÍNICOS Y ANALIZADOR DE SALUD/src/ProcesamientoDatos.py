@@ -3,6 +3,27 @@ import pandas as pd
 # Leer dataset local
 df = pd.read_csv("EC03/GESTOR DE EXPEDIENTES CLÍNICOS Y ANALIZADOR DE SALUD/data/dataset_final.csv")  # ajusta el nombre si es diferente
 
+def buscar_paciente(df, patient_id=None, nombre_completo=None):
+    """
+    Busca un paciente por su ID o por su nombre completo en la columna 'name'.
+    """
+    if patient_id is not None:
+        paciente = df[df['patient_id'] == patient_id]
+        if not paciente.empty:
+            print(f"\nPaciente encontrado por ID: {patient_id}")
+            return paciente.iloc[0]
+            
+    elif nombre_completo is not None:
+        # Búsqueda directa y no sensible a mayúsculas en la columna 'name'.
+        paciente = df[df['name'].str.lower() == nombre_completo.lower()]
+        if not paciente.empty:
+            print(f"\nPaciente encontrado por nombre: '{nombre_completo}'")
+            # Si hubiera múltiples pacientes con el mismo nombre, devolvemos el primero.
+            return paciente.iloc[0]
+            
+    print(f"\nNo se encontró al paciente con los datos proporcionados.")
+    return None
+
 #Creara columnas adicionales
 Grupo_etario_lista = []
 Categoria_bmi_lista =[]
@@ -32,31 +53,42 @@ df["Grupo_Etario"] = Grupo_etario_lista
 df["Categoria_BMI"] = Categoria_bmi_lista
 
 print("="*60)
-print("PUNTAJE DE RIESGO")
+print("Riesgo de Enfermedad Coronaria (Aterosclerosis)")
 print("="*60)
-""""Función en donde se establecera un puntaje que permitira en base
-de diferentes mètricas del dataset para medir el nivel de riesgo de 
-sufrir un Accidente Cerebrovascular (ACV)"""
+""""Evalúa el riesgo de enfermedad coronaria (aterosclerosis) contando factores de riesgo clave.
+    Lógica basada en tu propuesta."""
 
-def puntaje_riesgo(df):
-    df["risk_score"] = 0
-    df["risk_score"] += (df['Grupo_Etario'] == 'Adulto Mayor').astype(int)
-    df["risk_score"] += (df['Categoria_BMI'] == 'Obesidad').astype(int)
-    df['risk_score'] += (df['cholesterol'] > 200).astype(int)
-    df['risk_score'] += (df['hypertension'] == 1).astype(int)
-    df['risk_score'] += (df['diabetes'] == 1).astype(int)
+def evaluar_riesgo_coronario(paciente):
+    factores = 0
+    factores_encontrados = []
 
-    # Corrección: Aplicar la lógica de nivel de riesgo usando apply
-    df["nivel"] = df["risk_score"].apply(lambda x: "alto riesgo" if x == 5 else "bajo riesgo")
+#Análisis Edad
+    if paciente["age"] > 55:
+     factores += 1
+     factores_encontrados.append("Edad>55")
+#Análisis colesterol
+    if paciente["cholesterol"] > 200:
+        factores += 1
+        factores_encontrados.append("Colesterol mayor a 200")
+#Análisis de Presión
+    if paciente["hypertension"] == 1 or paciente["systolic_bp"] >= 13:
+        factores += 1
+        factores_encontrados.append("Presion alta")
+#Diabetes
+    if paciente["diabetes"] == 1:
+        factores += 1
+        factores_encontrados.append("Diabetes")
+    
+    riesgo = "Bajo"
+    if factores >= 3:
+        riesgo = "Alto"
+    elif factores == 2:
+        riesgo = "Moderado"
+    
+    return f"Riesgo de Enfermedad Coronaria: {riesgo} ({factores}/4 factores: {', '.join(factores_encontrados)})"
 
-    return df 
 
-dfinal = puntaje_riesgo(df)
-if dfinal is not None:
-    # Corrección: Cambiar df_final por dfinal y corregir nombres de columnas
-    print("\n--- Vista previa del DataFrame final ---")
-    print(dfinal[['age', 'Grupo_Etario', 'bmi', 'Categoria_BMI', 'hypertension', 'diabetes', 'risk_score', 'nivel']])
-
+    
 
 
 def clasificar_glucosa(df):
