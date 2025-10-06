@@ -1,8 +1,9 @@
 #====================================================================#
 #             2. Procesamiento de datos y filtrado                   #
 #====================================================================#
-
+import pandas as pd
 def procesar_datos(df_ingresado):
+    
     """
     Procesa el DataFrame para limpiar valores nulos (NaN), descartar columnas,
     realizar conversiones binarias ('Si'/'No' a 1/0) y eliminar duplicados.

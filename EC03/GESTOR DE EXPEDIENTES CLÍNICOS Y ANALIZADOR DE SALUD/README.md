@@ -7,20 +7,25 @@
 ---
 
 ## 👥 Integrantes del Grupo
-- Jaime Andrés Estrada 
-- Nombre Apellido 
-- Nombre Apellido 
-- Nombre Apellido 
+
+- Jaime Andrés Estrada
+- William Denilson Vera
+- Daniel Heredia
+- Jhuliet Conza
+- John Vera
 
 ---
 
 ## 📝 Descripción del Proyecto
+
 Breve descripción clara del proyecto (2–5 líneas). Indica:
+
 - ¿Qué problema resuelve?
 - ¿Cuál es el objetivo principal?
 - ¿Quiénes son los usuarios o beneficiarios?
 
-**Ejemplo:**  
+**Ejemplo:**
+
 > Este proyecto es una aplicación en Python para la gestión de inventarios de pequeñas tiendas. Permite agregar productos, registrar ventas y generar reportes básicos para facilitar el control de stock.
 
 ---
@@ -28,30 +33,38 @@ Breve descripción clara del proyecto (2–5 líneas). Indica:
 ## ⚙️ Instrucciones de Instalación y Ejecución
 
 ### Requisitos
+
 - Python 3.9+ (recomendado)
 - Git
 
 ### Pasos
+
 1. Clonar el repositorio (o asegurarse de estar en la carpeta del proyecto):
+
    ```bash
    git clone <URL_DEL_REPO>
    cd <ruta/al/proyecto>   # ej: cd ecuador03/proyecto-01-nombre
    ```
 
 2. Actualizar pip e instalar dependencias:
+
    ```bash
    pip install --upgrade pip
    pip install -r requirements.txt
    ```
 
 3. Ejecutar la aplicación (ejemplo):
+
    ```bash
    python main.py
    ```
+
    O, si es una aplicación web:
+
    ```bash
-   uvicorn app.main:app --reload   
+   uvicorn app.main:app --reload
    ```
+
    Reemplaza los comandos anteriores por los específicos de tu proyecto.
 
 4. Ejecutar pruebas (si aplica):
@@ -62,6 +75,7 @@ Breve descripción clara del proyecto (2–5 líneas). Indica:
 ---
 
 ## 📂 Estructura del Código (sugerida)
+
 ```
 proyecto-xx-nombre/
 │
@@ -71,7 +85,7 @@ proyecto-xx-nombre/
 ├── src/                  # Código fuente del proyecto
 │   ├── module1.py
 │   └── module2.py
-├── data/                 # Datos de ejemplo 
+├── data/                 # Datos de ejemplo
 ├── docs/                 # Documentación adicional (opcional)
 └── .gitignore
 ```
@@ -81,6 +95,7 @@ proyecto-xx-nombre/
 ---
 
 ## ✅ Herramientas Implementadas
+
 - **Lenguaje:** Python 3.x
 - **Librerías principales:** `<pandas, numpy, flask, fastapi, matplotlib, etc.>` (lista → reemplazar)
 - **Otras herramientas:** `<Docker, GitHub Actions (CI), pytest, etc.>` (lista → reemplazar)
@@ -88,10 +103,10 @@ proyecto-xx-nombre/
 ---
 
 ## 💡 Buenas prácticas y reglas internas
+
 - Trabajar únicamente dentro de la carpeta asignada al grupo.
 - Commits claros: `feat: agrega función X`, `fix: corrige bug en Y`, `docs: actualiza README`.
 - Mantener el README del proyecto actualizado con cambios importantes.
-
 
 > **IMPORTANTE:** Este README es una plantilla base. Cada grupo debe editarlo y completarlo con la información real de su proyecto antes de la entrega.
 

@@ -35,9 +35,9 @@ Basandonos en datos del banco central del ecuador, el 43% de jovenes entre 18 y 
    /EC03/FINZEN GESTIÓN Y MANEJO DE FINANZAS PERSONALES MEDIANTE VISUALIZACIÓN DE DATOS EN JÓVENES
 
 3. Ejecutar la aplicación:
-
-   a. Se puede ejecutar por celda de forma ordenada
-   b. Se puede ejecutar todas las celdas con el boton en la parte superior del IDE.
+   a. Abrir archivo main.ipynb.
+   b. Se puede ejecutar por celda de forma ordenada.
+   c. Se puede ejecutar todas las celdas con el boton en la parte superior del IDE que dice 'Run All'.
    
 ---
 
@@ -49,8 +49,9 @@ FINZEN GESTIÓN Y MANEJO DE FINANZAS PERSONALES MEDIANTE VISUALIZACIÓN DE DATOS
 ├── README.md             # Este archivo (personalizar)
 ├── requirements.txt      # Dependencias del proyecto
 ├── src/                  # Código fuente del proyecto
-│   ├── module1.py
-│   └── module2.py
+│   ├── Graficas.py
+│   ├── ObtencionDatos.py
+    └── Procesamiento datos.py
 ├── data/                 # Datos de ejemplo 
 ├── docs/                 # Documentación adicional (opcional)
 └── .gitignore

@@ -16,7 +16,7 @@
 ---
 
 ## 📝 Descripción del Proyecto
-Este proyecto es un programa de visualización y análisis de los puntos WiFi municipales de Quito el cual facilita el acceso a información de conectividad pública con el propósito de identificar brechas de cobertura y optimizar recursos beneficiando a ciudadanos sin acceso a datos móviles y conexión a internet.
+Este proyecto es un programa de visualización y análisis de los puntos WiFi municipales del Distrito Metropolitano de Quito el cual facilita el acceso a información de conectividad pública con el propósito de identificar brechas de cobertura y optimizar recursos beneficiando a ciudadanos sin acceso a datos móviles y conexión a internet.
 
 ## ⚙️ Instrucciones de Instalación y Ejecución
 
@@ -37,15 +37,13 @@ Este proyecto es un programa de visualización y análisis de los puntos WiFi mu
    pip install -r requirements.txt
    ```
 
-3. Ejecutar la aplicación (ejemplo):
+3. Ejecutar la aplicación:
    ```bash
-   python main.py
+   python dashboard_main.py
    ```
-   O, si es una aplicación web:
-   ```bash
-   uvicorn app.main:app --reload   
-   ```
-   Reemplaza los comandos anteriores por los específicos de tu proyecto.
+
+Nota: después de ejecutar la aplicación, abrir el dashboard accediendo a:
+http://127.0.0.1:8050/
 
 4. Ejecutar pruebas (si aplica):
    ```bash
@@ -54,38 +52,40 @@ Este proyecto es un programa de visualización y análisis de los puntos WiFi mu
 
 ---
 
-## 📂 Estructura del Código (sugerida)
+## 📂 Estructura del proyecto:
 ```
-proyecto-xx-nombre/
-│
-├── main.py               # Punto de entrada principal
-├── README.md             # Este archivo (personalizar)
-├── requirements.txt      # Dependencias del proyecto
-├── src/                  # Código fuente del proyecto
-│   ├── module1.py
-│   └── module2.py
-├── data/                 # Datos de ejemplo 
-├── docs/                 # Documentación adicional (opcional)
-└── .gitignore
+VISUALIZACION DE INFRAESTRUCTURA DE REDES PUBLICAS EN EL DISTRITO METROPOLITANO DE QUITO/
+├── 📂 estadisticas/
+│   ├── 📂 resultados                            # Carpeta que contiene los resultados estadísticos.
+│   │   ├── cobertura_prioritaria.csv            # Declara como módulo a la carpeta para utilizar sus datos.
+│   │   └── estadisticas_basicas.csv             # Declara como módulo a la carpeta para utilizar sus datos.
+│   ├── __init__.py                              # Declara como módulo a la carpeta para utilizar sus datos.
+│   ├── basic_stats.py                           # Script para calcular las estadísticas básicas.
+│   └── coverage_calc.py                         # Script para calcular la cobertura prioritaria.
+├── 📂 manejo_de_datos/
+│   ├── __init__.py                              # Declara como módulo a la carpeta para utilizar sus datos.   
+│   ├── datos_procesados.py                      # Script de procesamiento de los datos.
+│   ├── extraccion_datos.py                      # Script de extracción de los datos desde la API.
+│   ├── zonas_puntos_wifi.csv                    # Archivo CSV con los datos de la API (zonas wifi).
+│   └── zonas_puntos_wifi_procesados.csv         # Archivo CSV con los datos procesados de las zonas wifi.
+├── 📂 visualizacion/
+│   ├── __init__.py                              # Declara como módulo a la carpeta para utilizar sus datos.              
+│   └── visualizador.py                          # Gráficos de los resultados y mapa.
+├── dashboard_main.py                            # Aplicación principal (dashboard)
+├── requirements.txt                             # Dependencias del proyecto
+└── README.md                                    # Este archivo.
 ```
-
-> Nota: Ajusta la estructura según las necesidades de tu proyecto, pero mantén orden y claridad.
 
 ---
 
 ## ✅ Herramientas Implementadas
 - **Lenguaje:** Python 3.13.x
-- **Librerías principales:** `<pandas, numpy, flask, fastapi, matplotlib, etc.>` (lista → reemplazar)
-- **Otras herramientas:** `<Docker, GitHub Actions (CI), pytest, etc.>` (lista → reemplazar)
+- **Librerías principales:** `<pandas, numpy, requests, matplotlib, seaborn, folium, dash, scipy>`
+- **Otras herramientas:** `<pytest>`
 
 ---
 
 ## 💡 Buenas prácticas y reglas internas
 - Trabajar únicamente dentro de la carpeta asignada al grupo.
-- Commits claros: `feat: agrega función X`, `fix: corrige bug en Y`, `docs: actualiza README`.
+- Realizar commits claros, por ejemplo: `feat: agrega función X`, `fix: corrige bug en Y`, `docs: actualiza README`.
 - Mantener el README del proyecto actualizado con cambios importantes.
-
-
-> **IMPORTANTE:** Este README es una plantilla base. Cada grupo debe editarlo y completarlo con la información real de su proyecto antes de la entrega.
-
-¡Éxitos con tu proyecto! 🚀
