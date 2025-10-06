@@ -3,7 +3,7 @@ import os
 import numpy as np
 
 RUTA_BASE = os.path.dirname(os.path.dirname(__file__))
-RUTA_DATOS_PROCESADOS = os.path.join(RUTA_BASE,'manejo_de_datos', 'zonas_puntos_wifi_procesados.csv')
+RUTA_DATOS_PROCESADOS = os.path.join(RUTA_BASE, 'manejo_de_datos', 'zonas_puntos_wifi_procesados.csv')
 RUTA_SALIDA_COBERTURA = os.path.join(os.path.dirname(__file__), 'resultados', 'cobertura_prioritaria.csv')
 
 
@@ -19,30 +19,48 @@ def cargar_datos(ruta):
 
 def calcular_densidad(df):
     """
-    Calcula densidad aproximada de puntos WiFi por parroquia.
-
+    Calcula la densidad de puntos por área (aproximada), asigna una categoría
+    de prioridad e integra esa categoría en el DataFrame principal.
     """
-    print("Calculando densidad aproximada de cobertura...\n")
+    print("Calculando densidad y nivel de prioridad de cobertura...\n")
 
     densidad = df.groupby('parroquia').agg(
-        total_puntos=('nombre', 'count'),
+        total_puntos=('nombre_punto', 'count'),
         lat_min=('latitud', 'min'),
         lat_max=('latitud', 'max'),
         lon_min=('longitud', 'min'),
         lon_max=('longitud', 'max')
     ).reset_index()
 
-    # Área aproximada (rectangular) para cálculo de densidad
     densidad['area_aprox'] = (densidad['lat_max'] - densidad['lat_min']) * \
-        (densidad['lon_max'] - densidad['lon_min'])
+        (densidad['lon_max'] - densidad['lon_max'])
     densidad['densidad_puntos'] = densidad['total_puntos'] / \
         densidad['area_aprox'].replace(0, np.nan)
+    densidad['densidad_puntos'].fillna(0, inplace=True) 
+    
+    bins = pd.qcut(
+        densidad['densidad_puntos'], 
+        q=5,
+        labels=False, 
+        duplicates='drop',
+    ) 
+    densidad['nivel_prioridad'] = 5 - bins.astype(int) 
+    
+    print("Categorías de prioridad (1-Baja a 5-Alta) asignadas a cada parroquia.")
 
-    # Identificar 3-5 zonas prioritarias (menor densidad)
-    zonas_prioritarias = densidad.nsmallest(5, 'densidad_puntos')[
-        ['parroquia', 'densidad_puntos']]
+    df_enriquecido = df.merge(
+        densidad[['parroquia', 'nivel_prioridad']], 
+        on='parroquia', 
+        how='left'
+    )
+
+    zonas_prioritarias = densidad.nlargest(5, 'nivel_prioridad')[
+        ['parroquia', 'nivel_prioridad', 'total_puntos']]
+
     print("Zonas prioritarias detectadas:\n", zonas_prioritarias)
-    return densidad, zonas_prioritarias
+    
+    # El resultado principal de esta función es el DataFrame enriquecido, listo para mapeo
+    return df_enriquecido, zonas_prioritarias
 
 
 def guardar_resultados(densidad, zonas_prioritarias, ruta_salida):
