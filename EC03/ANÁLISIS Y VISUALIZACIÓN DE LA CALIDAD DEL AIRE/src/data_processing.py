@@ -40,6 +40,11 @@ def quality_report(df_idx: pd.DataFrame) -> dict:
         "missing": {c: int(df_idx[c].isna().sum()) for c in df_idx.columns}
     }
 
+def resample_agg(df_idx: pd.DataFrame, rule="D", agg="median", cols=CONTAMINANTES) -> pd.DataFrame:
+    cols = [c for c in cols if c in df_idx.columns]
+    if not cols: return pd.DataFrame(index=df_idx.index)
+    return getattr(df_idx[cols].resample(rule), agg)()
+
 def descriptives(df_idx: pd.DataFrame, cols=CONTAMINANTES) -> pd.DataFrame:
     cols = [c for c in cols if c in df_idx.columns]
     if not cols: return pd.DataFrame()
