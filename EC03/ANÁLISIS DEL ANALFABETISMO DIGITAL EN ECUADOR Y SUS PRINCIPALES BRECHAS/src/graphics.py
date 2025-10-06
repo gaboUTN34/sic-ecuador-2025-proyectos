@@ -109,4 +109,8 @@ class Graphics:
         plt.axis('equal')
 
         plt.tight_layout()
+
+        ruta_guardado  = os.path.join(self.generar_direccion(),'grafico_empresa.png')
+        plt.savefig(ruta_guardado, format='png', dpi=300, bbox_inches='tight')
+                    
         plt.show()
