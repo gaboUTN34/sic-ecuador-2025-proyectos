@@ -3,8 +3,10 @@ import os
 import numpy as np
 
 RUTA_BASE = os.path.dirname(os.path.dirname(__file__))
-RUTA_DATOS_PROCESADOS = os.path.join(RUTA_BASE,'manejo_de_datos', 'zonas_puntos_wifi_procesados.csv')
-RUTA_SALIDA_COBERTURA = os.path.join(os.path.dirname(__file__), 'resultados', 'cobertura_prioritaria.csv')
+RUTA_DATOS_PROCESADOS = os.path.join(
+    RUTA_BASE, 'manejo_de_datos', 'zonas_puntos_wifi_procesados.csv')
+RUTA_SALIDA_COBERTURA = os.path.join(os.path.dirname(
+    __file__), 'resultados', 'cobertura_prioritaria.csv')
 
 
 def cargar_datos(ruta):
@@ -32,13 +34,11 @@ def calcular_densidad(df):
         lon_max=('longitud', 'max')
     ).reset_index()
 
-    # Área aproximada (rectangular) para cálculo de densidad
     densidad['area_aprox'] = (densidad['lat_max'] - densidad['lat_min']) * \
         (densidad['lon_max'] - densidad['lon_min'])
     densidad['densidad_puntos'] = densidad['total_puntos'] / \
         densidad['area_aprox'].replace(0, np.nan)
 
-    # Identificar 3-5 zonas prioritarias (menor densidad)
     zonas_prioritarias = densidad.nsmallest(5, 'densidad_puntos')[
         ['parroquia', 'densidad_puntos']]
     print("Zonas prioritarias detectadas:\n", zonas_prioritarias)
