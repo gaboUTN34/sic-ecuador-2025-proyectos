@@ -59,11 +59,13 @@ def calcular_centroide_por_parroquia(gdf: gpd.GeoDataFrame) -> pd.DataFrame:
     """
     Calcula el centroide (latitud y longitud central) de cada parroquia.
     """
-    centroides = gdf.dissolve(by="parroquia").centroid
+    gdf_proyectado = gdf.to_crs("EPSG:32717")
+    centroides_proyectados = gdf_proyectado.dissolve(by="parroquia").centroid
+    centroides_geograficos = centroides_proyectados.to_crs("EPSG:4326")
     df_centroides = pd.DataFrame({
-        "parroquia": centroides.index,
-        "latitud_centroide": centroides.y,
-        "longitud_centroide": centroides.x
+        "parroquia": centroides_geograficos.index,
+        "latitud_centroide": centroides_geograficos.y,
+        "longitud_centroide": centroides_geograficos.x
     })
     return df_centroides
 
