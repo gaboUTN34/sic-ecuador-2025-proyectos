@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./EC03/FINZEN GESTIÓN Y MANEJO DE FINANZAS PERSONALES MEDIANTE VISUALIZACIÓN DE DATOS EN JÓVENES/src"
+    ]
+}

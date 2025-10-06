@@ -1,0 +1,25 @@
+﻿nombre,apellido,cedula,edad,genero,ingresos,gastos_prioritarios,gastos_secundarios,porcentaje_ahorro,ahorro_real,grupo_edad,total_gastos
+Isaac,Andrade,1750844597,24,Masculino,{'Trabajo': 150},{'Universidad': 70},{'Pareja': 25},10.0,15.0,24-26,95
+Xavier,Espinel,1004329155,26,Masculino,{'Mensualidad': 500},"{'Comida': 100, 'ServiciosBásicos': 100, 'Otros': 200}",{'Ropa': 100},20.0,100.0,24-26,500
+Mathew,Gutierrez ,1726711490,23,Masculino,{'Mensualidad': 100},{'Comida': 55},{'Materiales': 5},10.0,10.0,21-23,60
+Maria Emilia,Guerra Cedeño,1724658537,18,Femenino,{'Mensualidad': 50},"{'lavanderia': 10, 'comida': 40}",{'comida': 5},25.0,12.5,18-20,55
+Joselyn ,Amaguaña ,1751385905,19,Femenino,"{'Beca': 27, 'Familia': 100}","{'Pasaje': 15, 'Comida': 10, 'Mascota': 10}","{'Ropa': 25, 'Helado': 5}",30.0,38.1,18-20,65
+Jhoao,Anderson ,1004268379,22,Masculino,{'Trabajo': 450},{'Universidad': 200},"{'Ropa': 50, 'Comida': 20}",20.0,90.0,21-23,270
+Madelyn ,Calderón ,1004161863,29,Femenino,{'Trabajo': 90},"{'Arriendo': 60, 'comida': 30}",{'Pasajes': 10},0.0,0.0,27+,100
+Lizeth Paulina ,Simbaña Pichamba,1004247233,26,Femenino,{'Familia': 100},"{'pasaje': 20, 'comida': 15, 'Universidad': 60, 'medicina': 10}","{'Aseo': 30, 'Ropa': 25}",0.0,0.0,24-26,160
+Tifany,Flores ,1728481316,19,Femenino,{'Mensualidad': 180},"{'Pasajes': 40, 'comida': 80, 'universidad': 50}",{'Comida': 20},10.0,18.0,18-20,190
+Helen ,Rocana ,1727937953,22,Femenino,{'Familia': 200},"{'Pasajes': 50, 'Comida': 50, 'Arriendo': 100}",{'Ropa': 30},0.0,0.0,21-23,230
+Josué,Cabrera,1004438428,21,Masculino,{'Mensualidad': 100},"{'Pasajes': 40, 'Comida': 50}",{'Otros': 5},5.0,5.0,21-23,95
+Daniela,Macias,1315593580,22,Femenino,{'Familia': 100},"{'Pasajes': 10, 'comida': 30, 'higiene': 25}",{'Pareja': 20},0.0,0.0,21-23,85
+Isabel ,Ortega,1728186071,23,Femenino,{'Sueldo': 600},"{'Universidad': 300, 'Hogar': 120, 'Pasajes': 60, 'Préstamo': 30}","{'Ropa': 40, 'Viaje': 50}",5.0,30.0,21-23,600
+Emily,Herrería ,1005425135,18,Femenino,{'Mensualidad': 10},{'Pasajes': 14},{'Salchipapa': 2},5.0,0.5,18-20,16
+Anderson Joel,Machángara Quishpe,1727837138,24,Masculino,{'Familia': 100},{'Universidad': 80},"{'Ropa': 10, 'Pasajes': 5}",0.0,0.0,24-26,95
+Alejandro ,López ,1805470869,21,Masculino,{'Mensualidad': 230},"{'Arriendo': 130, 'comida': 50, 'pasajes': 20, 'extras': 30}",{'Salidas': 35},10.0,23.0,21-23,265
+María ,Tulcán ,1755654561,20,Femenino,{'Mensualidad': 60},"{'comida': 30, 'pasajes': 20}","{'Helado': 2, 'impresiónes': 4}",5.0,3.0,18-20,56
+Erick ,Puenguenan ,1754416152,21,Masculino,{'Mensualidad': 70},{'Universidad': 50},{'Comida': 10},10.0,7.0,21-23,60
+Anderson ,Peralta ,1755909270,22,Masculino,{'Trabajo': 400},"{'Comida': 50, 'Materiales': 80}",{'Ropa': 90},100.0,400.0,21-23,220
+Melany,Solorzano ,1721239851,22,Femenino,{'Trabajo': 300},{'Universidad': 100},{'Ropa': 50},50.0,150.0,21-23,150
+Vanessa,Morales,1850992353,24,Femenino,{'Emprendimiento': 50},{'Comida': 25},{'Ropa': 10},10.0,5.0,24-26,35
+Nahomy ,Lema,1729831568,21,Femenino,{'Padres': 80},"{'Comida': 40, 'Pasajes': 20}",{'Helado': 2},10.0,8.0,21-23,62
+Anthony ,Chicaiza ,1755976097,22,Masculino,{'Trabajo': 120},"{'Pasaje': 30, 'Comida': 40, 'Universidad': 15, 'mascota': 10}","{'Compras': 20, 'Golosinas': 8}",0.0,0.0,21-23,123
+Sasha ,Pluas,1725871527,27,Femenino,{'Mensualidad': 100},"{'Pasajes': 9, 'Comida': 36, 'Renta': 54}",{'Restaurante': 5},0.0,0.0,27+,104
