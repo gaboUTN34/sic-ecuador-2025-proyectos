@@ -29,31 +29,17 @@ def visualizar_datos(df):
     plt.tight_layout()
     plt.show() 
 
-      # === GRÁFICO 3 (NUEVO): Factores de Riesgo por Diabetes ===
-    # Este gráfico avanzado muestra cómo se distribuyen el IMC, Colesterol y Presión Sistólica
-    # para pacientes CON y SIN diabetes. Es perfecto para el análisis de comorbilidades.
-    df_melted = df.melt(id_vars=['diabetes'], value_vars=['bmi', 'cholesterol', 'systolic_bp'], 
-                        var_name='Metrica', value_name='Valor')
-    g = sns.FacetGrid(df_melted, col="Metrica", hue="diabetes", sharex=False, sharey=False, height=4, aspect=1.2)
-    g.map(sns.kdeplot, "Valor", fill=True, alpha=0.7)
-    g.add_legend(title="Diabetes (1=Sí)")
-    g.fig.suptitle('Distribución de Métricas Clave según Estado de Diabetes', y=1.03, fontsize=16)
+    # Gráfico 3  Proporción de Pacientes con Diabetes
+  
+    plt.figure(figsize=(8, 8))
+    counts = df['diabetes'].value_counts()
+    labels = {1: 'Con Diabetes', 0: 'Sin Diabetes'}
+    plt.pie(counts, labels=[labels[i] for i in counts.index], autopct='%1.1f%%', startangle=90, colors=['#ff6666','#99ff99'])
+    plt.title('Proporción de Pacientes con Diagnóstico de Diabetes', fontsize=16)
+    plt.ylabel('')
     plt.show()
 
-    # === GRÁFICO 4 (NUEVO): Nivel de Creatinina por Grupo de Edad (Riesgo Renal) ===
-    # Un "Swarmplot" es muy útil para ver cada paciente como un punto individual,
-    # evitando que se solapen. Ideal para visualizar el riesgo renal por edad.
-    plt.figure(figsize=(12, 7))
-    sns.swarmplot(data=df, x='Grupo_Etario', y='creatinine', 
-                  order=["Niño/Adolescente", "Adulto Joven", "Adulto", "Adulto Mayor"])
-    plt.axhline(y=1.3, color='r', linestyle='--', label='Límite de Riesgo (1.3)')
-    plt.title('Nivel de Creatinina por Grupo de Edad', fontsize=16)
-    plt.xlabel('Grupo de Edad', fontsize=12)
-    plt.ylabel('Nivel de Creatinina', fontsize=12)
-    plt.legend()
-    plt.tight_layout()
-    plt.show()
-
+  
   
 
 
