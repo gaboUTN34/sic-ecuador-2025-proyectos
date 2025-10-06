@@ -62,7 +62,7 @@ def main():
         return
 
     try:
-        # Usa la función que renombra columnas automáticamente
+
         gdf_wifi = load_wifi_data(df)
 
         print("\n MÉTRICAS BÁSICAS")
