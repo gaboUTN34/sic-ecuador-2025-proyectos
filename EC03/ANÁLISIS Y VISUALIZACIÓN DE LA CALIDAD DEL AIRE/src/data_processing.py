@@ -5,28 +5,44 @@ import pandas as pd
 import numpy as np
 import re
 
-CONTAMINANTES = ['CO', 'NO','NO2','03','SO2','PM2.5', 'PM10', 'NH3']
+CONTAMINANTES = ['co', 'no', 'no2', 'o3', 'so2', 'pm2_5', 'pm10', 'nh3']
 
-def _guess_time_col(df):
-    cands = [c for c in df.columns if re.search(r'date|time|fecha|datetime|timestamp', str(c), re.I)]
-    for c in cands + list(df.columns):
+def quality_report(df_idx: pd.DataFrame) -> dict:
+    # Garantizar que el índice sea datetime
+    idx = df_idx.index
+    if not isinstance(idx, pd.DatetimeIndex):
+        # Si hay columna 'date' (o similar), úsala; si no, intenta convertir el index
+        date_like_cols = [c for c in df_idx.columns if re.search(r'date|time|fecha|datetime|timestamp', str(c), re.I)]
+        if date_like_cols:
+            tcol = date_like_cols[0]
+            dt = pd.to_datetime(df_idx[tcol], errors="coerce")
+            idx = dt
+        else:
+            try:
+                idx = pd.to_datetime(idx, errors="raise")
+            except Exception:
+                idx = None
+
+    # Normalizar tz y ordenar para inferir frecuencia
+    freq = None
+    if isinstance(idx, pd.DatetimeIndex):
+        if getattr(idx, "tz", None) is not None:
+            idx = idx.tz_localize(None)  # quitar tz si existe
+        idx = idx.sort_values()
         try:
-            pd.to_datetime(df[c], errors="raise"); return c
+            freq = pd.infer_freq(idx)
         except Exception:
-            pass
-    return None
+            freq = None
+
+    return {
+        "rows": int(df_idx.shape[0]),
+        "cols": int(df_idx.shape[1]),
+        "duplicates": int(df_idx.index.duplicated().sum()),
+        "inferred_freq": (freq or 'None'),
+        "missing": {c: int(df_idx[c].isna().sum()) for c in df_idx.columns},
+    }
 
 
-def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
-    df2 = df.copy()
-    df2.columns = [str(c).strip().lower() for c in df2.columns]
-    tcol = _guess_time_col(df2)
-    if tcol is None: raise ValueError("No se detectó columna temporal.")
-    df2[tcol] = pd.to_datetime(df2[tcol], errors="coerce", utc=True)
-    df2 = df2.dropna(subset=[tcol]).sort_values(tcol).set_index(tcol)
-    for p in CONTAMINANTES:
-        if p in df2.columns: df2[p] = pd.to_numeric(df2[p], errors="coerce")
-    return df2
 
 def quality_report(df_idx: pd.DataFrame) -> dict:
     idx = df_idx.index
