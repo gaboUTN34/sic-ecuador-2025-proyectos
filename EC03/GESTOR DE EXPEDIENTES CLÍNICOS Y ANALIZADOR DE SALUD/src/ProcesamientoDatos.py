@@ -24,7 +24,7 @@ def buscar_paciente(df, patient_id=None, nombre_completo=None):
     print(f"\nNo se encontró al paciente con los datos proporcionados.")
     return None
 
-#Creara columnas adicionales
+#Columnas adicionales utiles para futuros análisis
 Grupo_etario_lista = []
 Categoria_bmi_lista =[]
 
@@ -52,9 +52,12 @@ for i, row in df.iterrows():
 df["Grupo_Etario"] = Grupo_etario_lista
 df["Categoria_BMI"] = Categoria_bmi_lista
 
+#Riesgos Cardiovasculares y de Circulación-----------------------------------------------------------
+print("="*60)
+print("Riesgos Cardiovasculares y de Circulación")
 print("="*60)
 print("Riesgo de Enfermedad Coronaria (Aterosclerosis)")
-print("="*60)
+
 """"Evalúa el riesgo de enfermedad coronaria (aterosclerosis) contando factores de riesgo clave.
     Lógica basada en tu propuesta."""
 
@@ -88,9 +91,11 @@ def evaluar_riesgo_coronario(paciente):
     return f"Riesgo de Enfermedad Coronaria: {riesgo} ({factores}/4 factores: {', '.join(factores_encontrados)})"
 
 
-    
 
-
+#Trastornos Metabólicos------------------------------------------------------------------------------
+print("="*60)
+print("Trastornos Metabólicos")
+print("="*60)
 def clasificar_glucosa(df):
     normales = []
     prediabetes = []
@@ -139,6 +144,31 @@ print("Cantidad de pacientes con diabetes diagnosticada:", len(df_con_diabetes))
 print("Prediagnosticados con Diabetes:")
 print(df_con_diabetes.head(), "\n")
 
+def evaluar_sindrome_metabolico(paciente):
+    """Evalúa si el paciente cumple criterios para Síndrome Metabólico."""
+    factores = 0
+    
+    if paciente['Categoria_BMI'] == "Obesidad": factores += 1
+    if paciente['systolic_bp'] >= 130 or paciente['diastolic_bp'] >= 85: factores += 1
+    if paciente['glucose'] >= 100: factores += 1
+    if paciente['cholesterol'] > 200: factores += 1 # Usamos colesterol total como proxy
+    
+    if factores >= 3:
+        return "Alto Riesgo de Síndrome Metabólico", "Endocrinólogo y Cardiólogo"
+    return None, None
+
+# Riesgo de Enfermedad Renal-------------------------------------------------------------
+print("="*60)
+print("Riesgo de Enfermedad Renal")
+print("="*60)
+def evaluar_riesgo_renal(paciente):
+    """5. Evalúa el riesgo de Enfermedad Renal Crónica (ERC)."""
+    if paciente['creatinine'] > 1.3:
+        if paciente['diabetes'] == 1 or paciente['hypertension'] == 1:
+            return "Riesgo Renal Crítico (agravado por comorbilidades)", "Nefrólogo"
+        else:
+            return "Riesgo Renal (Creatinina elevada)", "Nefrólogo"
+    return None, None
 
 
 
