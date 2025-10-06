@@ -5,6 +5,32 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 
+
+## Paleta de colores definida
+
+COLORES = {
+    "GOOD": "#2ecc71",    # verde
+    "BAD": "#e74c3c",     # rojo
+    "NEUTRAL": "#bda0e3", # lila
+    "MALE": "#3498db",    # azul
+    "FEMALE": "#ff6fae",  # rosa
+    "SECONDARY": "#f39c12" # ámbar / secundario
+}
+
+def color_genero(valor):
+    if not isinstance(valor, str):
+        return COLORES["NEUTRAL"]
+    v = valor.strip().lower()
+    # admite variaciones comunes
+    if v in {"hombre", "masculino", "m"}:
+        return COLORES["MALE"]
+    if v in {"mujer", "femenino", "f"}:
+        return COLORES["FEMALE"]
+    if v in {"no especifica", "otro", "no binario", "nb", "x"}:
+        return COLORES["NEUTRAL"]
+    return COLORES["NEUTRAL"]
+
+
 def grafico_finanzas_personales(df_finanzas, cedula):
     # Filtrar usuario específico
     usuario = df_finanzas[df_finanzas['cedula'] == cedula].iloc[0]
@@ -20,21 +46,27 @@ def grafico_finanzas_personales(df_finanzas, cedula):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
 
     # Gráfico 1: Ingresos vs Gastos Totales
-    categorias_ingresos_gastos = ['Ingresos', 'Gastos Totales']
-    valores_ingresos_gastos = [total_ingresos, total_gastos]
-    colores_ingresos_gastos = ['#2ecc71', '#e74c3c']
-
-    ax1.pie(valores_ingresos_gastos, labels=categorias_ingresos_gastos, autopct='%1.1f%%',
-            colors=colores_ingresos_gastos, startangle=90)
+    
+    ax1.pie(
+        [total_ingresos, total_gastos],
+        labels=['Ingresos', 'Gastos Totales'],
+        autopct='%1.1f%%',
+        colors=[COLORES["GOOD"], COLORES["BAD"]],
+        startangle=90
+    )
     ax1.set_title(f'Ingresos vs Gastos Totales\n{usuario["nombre"]} {usuario["apellido"]}')
 
     # Gráfico 2: Composición de Gastos (mantenemos el original)
     gastos_labels = ['Prioritarios', 'Secundarios']
     gastos_values = [total_gastos_prio, total_gastos_sec]
-    ax2.pie(gastos_values, labels=gastos_labels, autopct='%1.1f%%',
-            colors=['#e74c3c', '#f39c12'], startangle=90)
+    ax2.pie(
+        [total_gastos_prio, total_gastos_sec],
+        labels=['Prioritarios', 'Secundarios'],
+        autopct='%1.1f%%',
+        colors=[COLORES["BAD"], COLORES["SECONDARY"]],
+        startangle=90
+    )
     ax2.set_title('Composición de Gastos')
-
     plt.tight_layout()
     plt.show()
 
@@ -60,11 +92,13 @@ def grafico_comparativo_completo(df_finanzas, cedula):
     fig, ax = plt.subplots(figsize=(10, 6))
 
     # Configurar posiciones de las barras
+      # color condicional: verde si alcanza/supera la meta, rojo si no
+    color_real = COLORES["GOOD"] if ahorro_real >= ahorro_esperado else COLORES["BAD"]
+
     categorias = ['Ahorro Real', 'Ahorro Esperado']
     montos = [ahorro_real, ahorro_esperado]
     porcentajes = [porcentaje_ahorro_real, porcentaje_ahorro_esperado]
-    colores = ['#2ecc71' if ahorro_real >= ahorro_esperado else '#e74c3c', '#3498db']
-
+    colores = [color_real, COLORES["NEUTRAL"]]
     # Crear barras más delgadas (reducido de 0.6 a 0.4)
     bars = ax.bar(categorias, montos, color=colores, alpha=0.8, width=0.4)
 
@@ -84,9 +118,9 @@ def grafico_comparativo_completo(df_finanzas, cedula):
                 ha='center', va='bottom', fontweight='bold', fontsize=11)
 
     # Línea de referencia para el ahorro esperado
-    ax.axhline(y=ahorro_esperado, color='red', linestyle='--', alpha=0.7,
+    ax.axhline(y=ahorro_esperado, color=COLORES["BAD"], linestyle='--', alpha=0.8,
                label=f'Meta: ${ahorro_esperado:.2f} ({porcentaje_ahorro_esperado}%)')
-
+    
     # Añadir diferencia
     diferencia_monto = ahorro_real - ahorro_esperado
     diferencia_porcentaje = porcentaje_ahorro_real - porcentaje_ahorro_esperado
@@ -116,7 +150,7 @@ def proporcion_ingresos(df_tipo_ingreso):
     # Gráfico de pastel que representa la cantidad de estudiantes con ingresos con relacion a los que no reciben ingresos.
     conteo_ingresos = df_tipo_ingreso['tipo_ingreso'].value_counts().reindex([1,0],fill_value=0)
     ax.pie(conteo_ingresos.values, labels=['Con Ingresos', 'Sin Ingresos'],
-           autopct='%1.1f%%', colors=['#2ecc71', '#e74c3c'], startangle=90)
+       autopct='%1.1f%%', colors=[COLORES["GOOD"], COLORES["BAD"]], startangle=90)
     ax.set_title('Proporción de Estudiantes con/sin Ingresos')
 
     plt.tight_layout()
@@ -131,15 +165,15 @@ def dificultad_financiera_general(df_equilibrio):
     # relacion al manejo de sus finanzas.
     
     ax = sns.histplot(data=df_equilibrio, x='dificultad_equilibrio', bins=5,
-                     kde=True, color='#9b59b6')
+                  kde=True, color=COLORES["NEUTRAL"])
     plt.title('Distribución de Niveles de Dificultad Financiera - Todos los Usuarios')
     plt.xlabel('Nivel de Dificultad (1=Muy fácil, 5=Muy difícil)')
     plt.ylabel('Cantidad de Usuarios')
 
     # Añadir estadísticas
     media = df_equilibrio['dificultad_equilibrio'].mean()
-    plt.axvline(media, color='red', linestyle='--',
-                label=f'Dificultad Promedio: {media:.2f}')
+    plt.axvline(media, color=COLORES["BAD"], linestyle='--',
+            label=f'Dificultad Promedio: {media:.2f}')
     plt.legend()
 
     plt.tight_layout()
@@ -158,10 +192,12 @@ def edad_vs_ahorro(df_finanzas):
 
     fig, ax = plt.subplots(figsize=(10, 6))
 
-    # Creacion del gráfico de barras agrupado
-    df_finanzas['grupo_edad'] = pd.cut(df_finanzas['edad'],
-                                     bins=[17, 20, 23, 26, 30],
-                                     labels=['18-20', '21-23', '24-26', '27+'])
+    # Creación del gráfico de barras agrupado
+    df_finanzas['grupo_edad'] = pd.cut(
+        df_finanzas['edad'],
+        bins=[17, 20, 23, 26, 30],
+        labels=['18-20', '21-23', '24-26', '27+']
+    )
 
     datos_agrupados = df_finanzas.groupby('grupo_edad').agg({
         'porcentaje_ahorro': 'mean',
@@ -171,28 +207,36 @@ def edad_vs_ahorro(df_finanzas):
     x = range(len(datos_agrupados))
     ancho = 0.35
 
-    ax.bar(x, datos_agrupados['porcentaje_ahorro'], ancho, label='% Ahorro', alpha=0.7, color='blue')
+    # % Ahorro (AZUL = hombre)
+    ax.bar(
+        x, datos_agrupados['porcentaje_ahorro'], ancho,
+        label='% Ahorro', alpha=0.7, color=COLORES["MALE"]
+    )
     ax.set_xlabel('Grupo de Edad')
-    ax.set_ylabel('Porcentaje de Ahorro (%)', color='blue')
-    ax.tick_params(axis='y', labelcolor='blue')
+    ax.set_ylabel('Porcentaje de Ahorro (%)', color=COLORES["MALE"])
+    ax.tick_params(axis='y', labelcolor=COLORES["MALE"])
 
+    # Ahorro real ($) (VERDE = bien)
     ax_twin = ax.twinx()
-    ax_twin.bar([i + ancho for i in x], datos_agrupados['ahorro_real'], ancho,
-                label='Ahorro Real ($)', color='orange', alpha=0.7)
-    ax_twin.set_ylabel('Ahorro Real ($)', color='orange')
-    ax_twin.tick_params(axis='y', labelcolor='orange')
+    ax_twin.bar(
+        [i + ancho for i in x], datos_agrupados['ahorro_real'], ancho,
+        label='Ahorro Real ($)', color=COLORES["GOOD"], alpha=0.7
+    )
+    ax_twin.set_ylabel('Ahorro Real ($)', color=COLORES["GOOD"])
+    ax_twin.tick_params(axis='y', labelcolor=COLORES["GOOD"])
 
     ax.set_xticks([i + ancho/2 for i in x])
     ax.set_xticklabels(datos_agrupados['grupo_edad'])
     ax.set_title('Ahorro por Grupo de Edad')
 
-    # Leyenda añadida en la grafica.
+    # Leyenda combinada
     lines1, labels1 = ax.get_legend_handles_labels()
     lines2, labels2 = ax_twin.get_legend_handles_labels()
     ax.legend(lines1 + lines2, labels1 + labels2)
 
     plt.tight_layout()
     plt.show()
+
     
 #GRAFICO GENERAL 4
 #Tipo: grafico de caja
@@ -224,7 +268,7 @@ def distribucion_gastos_por_genero(df_finanzas):
 
     #4.- Crear Grafico y establecer datos
     fig, ax = plt.subplots(figsize=(8, 5))
-    colores = ["#3498db", "#e74c3c", "#9b59b6", "#2ecc71"][:len(resumen)]
+    colores = [color_genero(g) for g in resumen["genero"]]
 
     barras = ax.bar(resumen["genero"], resumen["total_gastos_secundarios"], color=colores, alpha=0.85)
     ax.set_title("Promedio de gastos secundarios por género", fontsize=13, fontweight="bold")
