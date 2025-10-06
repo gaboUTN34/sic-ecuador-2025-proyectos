@@ -63,7 +63,7 @@ def descriptives(df_idx: pd.DataFrame, cols=CONTAMINANTES) -> pd.DataFrame:
     return d[["count","mean","std","min","p05","p50","p95","max"]]
 
 
-def clean_data(df: pd.DataFrame) -> pd.DataFrame:
+def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     """
     Limpia y transforma los datos:
         - Convierte la columna 'date' a formato datetime.
@@ -95,6 +95,10 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     # Reemplazar valores negativos por NaN (no válidos en contaminantes)
     numeric_cols = df.select_dtypes(include=[np.number]).columns
     df[numeric_cols] = df[numeric_cols].applymap(lambda x: np.nan if x < 0 else x)
+    
+    if "date" in df.columns:
+        df = df.set_index("date")
+        df.index.name = "date"
 
     print("✅ Datos limpios y listos para el análisis.")
     return df
