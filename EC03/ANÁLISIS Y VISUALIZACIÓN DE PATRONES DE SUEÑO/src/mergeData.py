@@ -1,6 +1,6 @@
 import pandas as pd
 
-
+#Con este código unimos las dos bases de datos
 def mergeData(df1: pd.DataFrame, df2: pd.DataFrame):
     try:
         if 'User ID' not in df1.columns or 'Person ID' not in df2.columns:
