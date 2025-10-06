@@ -32,10 +32,10 @@ RUTA_SALIDA_CENTROIDES = os.path.join(
 def cargar_datos(ruta):
     try:
         df = pd.read_csv(ruta)
-        print("✅ Datos procesados cargados correctamente.\n")
+        print("Datos procesados cargados correctamente.\n")
         return df
     except FileNotFoundError:
-        print(f"❌ Error: No se encontró el archivo {ruta}.")
+        print(f" Error: No se encontró el archivo {ruta}.")
         return None
 
 
@@ -43,19 +43,19 @@ def guardar_estadisticas(df_estadisticas, resumen, ruta_salida):
     os.makedirs(os.path.dirname(ruta_salida), exist_ok=True)
     try:
         df_estadisticas.to_csv(ruta_salida, index=False)
-        print(f"📁 Archivo guardado: {ruta_salida}\n")
-        print("📊 Resumen general:")
+        print(f" Archivo guardado: {ruta_salida}\n")
+        print(" Resumen general:")
         for k, v in resumen.items():
             print(f"- {k}: {v}")
     except Exception as e:
-        print(f"❌ Error al guardar resultados: {e}")
+        print(f" Error al guardar resultados: {e}")
 
 
 # -----------------------------
 # Función principal
 # -----------------------------
 def main():
-    print("🔍 Cargando datos WiFi...")
+    print(" Cargando datos WiFi...")
 
     df = cargar_datos(RUTA_DATOS_PROCESADOS)
     if df is None:
@@ -65,20 +65,20 @@ def main():
         # Usa la función que renombra columnas automáticamente
         gdf_wifi = load_wifi_data(df)
 
-        print("\n📊 MÉTRICAS BÁSICAS")
+        print("\n MÉTRICAS BÁSICAS")
         metrics = compute_basic_metrics(gdf_wifi)
         for key, value in metrics.items():
             print(f"{key}: {value}")
 
-        print("\n📍 CONTEO POR SECTOR")
+        print("\n CONTEO POR SECTOR")
         df_sector = count_points_by_sector(gdf_wifi)
         print(df_sector)
 
-        print("\n📍 CONTEO POR PARROQUIA")
+        print("\n CONTEO POR PARROQUIA")
         df_parroquia = count_points_by_parroquia(gdf_wifi)
         print(df_parroquia)
 
-        print("\n📍 CENTROIDES POR PARROQUIA")
+        print("\n CENTROIDES POR PARROQUIA")
         df_centroides = calcular_centroide_por_parroquia(gdf_wifi)
         print(df_centroides)
 
@@ -94,7 +94,7 @@ def main():
         guardar_estadisticas(df_centroides, resumen, RUTA_SALIDA_CENTROIDES)
 
     except Exception as e:
-        print(f"❌ Error en la ejecución: {e}")
+        print(f" Error en la ejecución: {e}")
 
 
 # -----------------------------
