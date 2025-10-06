@@ -1,5 +1,5 @@
-from src.processing_data import Data
+from src.graphics import Graphics
 
 if __name__ == '__main__':
-    data = Data()
-    data.show_dataframe()
+    graphics = Graphics()
+    graphics.grafico_empresa_ent()
