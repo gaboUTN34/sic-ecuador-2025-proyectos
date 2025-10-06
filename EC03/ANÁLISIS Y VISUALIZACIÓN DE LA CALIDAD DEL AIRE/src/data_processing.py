@@ -84,10 +84,10 @@ def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
         df = df.sort_values(by="date")
 
         # Extraer columnas de tiempo
-        df["Year"] = df["date"].dt.year
-        df["Month"] = df["date"].dt.month
-        df["Day"] = df["date"].dt.day
-        df["Hour"] = df["date"].dt.hour
+        df["year"] = df["date"].dt.year
+        df["month"] = df["date"].dt.month
+        df["day"] = df["date"].dt.day
+        df["hour"] = df["date"].dt.hour
 
     # Eliminar duplicados
     df = df.drop_duplicates()
@@ -96,7 +96,7 @@ def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     numeric_cols = df.select_dtypes(include=[np.number]).columns
     df[numeric_cols] = df[numeric_cols].applymap(lambda x: np.nan if x < 0 else x)
     
-    if "date" in df.columns:
+    if "date" in df.columns: # Establecer 'date' como índice
         df = df.set_index("date")
         df.index.name = "date"
 
@@ -135,9 +135,9 @@ def add_ica_category(df: pd.DataFrame) -> pd.DataFrame:
     Parámetros:
         df (pd.DataFrame): DataFrame original
     Return:
-        pd.DataFrame: DataFrame con la columna adicional 'ICA_Category'.
+        pd.DataFrame: DataFrame con la columna adicional 'ica_category'.
     """
-    df["ICA_Category"] = df["pm2_5"].apply(ica_category)
+    df["ica_category"] = df["pm2_5"].apply(ica_category)
     return df
 
 
@@ -188,7 +188,7 @@ class EstacionCalidadAire:
 
     def promedio_por_mes(self, columna: str) -> pd.DataFrame:
         """Calcula el promedio mensual de un contaminante."""
-        return self.df.groupby("Month")[columna].mean().reset_index()
+        return self.df.groupby("month")[columna].mean().reset_index()
 
     def maximo_global(self, columna: str) -> float:
         """Obtiene el valor máximo global de un contaminante."""
@@ -196,7 +196,7 @@ class EstacionCalidadAire:
 
     def top_n_dias_mas_contaminados(self, columna: str, n=5) -> pd.DataFrame:
         """Devuelve los N días con mayor concentración de un contaminante."""
-        diario = self.df.groupby("Date")[columna].mean().reset_index()
+        diario = self.df.groupby("date")[columna].mean().reset_index()
         return diario.sort_values(by=columna, ascending=False).head(n)
 
 
