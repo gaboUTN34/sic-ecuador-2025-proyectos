@@ -1,5 +1,5 @@
 # Este script es para ejecutar el dashboard y presentar los datos obtenidos anteriormente.
-# Se ejecuta mediante el módulo dash y el módulo flask (en pruebas).
+# Se ejecuta mediante el módulo dash.
 
 # TODO 1: implementar el dashboard en el proyecto como tal.
 # TODO 2: intentar que el dashboard sea interactivo.
@@ -9,29 +9,8 @@
 # Módulos principales de este script.
 import dash
 from dash import html, dcc
-import subprocess, sys, os
 
-# TODO: ejecutar los módulos del equipo
-def ejecutar_extraccion_datos():
-    try:
-        # Obtener la ruta del script
-        ruta_extraccion = os.path.join('manejo_de_datos', 'extraccion_datos.py')
-
-        # Ejecutar el script
-        resultado = subprocess.run([sys.executable, ruta_extraccion],
-                                   capture_output=True, text=True, check=True)
-
-        if resultado.stdout:
-            print(resultado.stdout)
-
-    except subprocess.CalledProcessError as e:
-        print(f"Error en extracción de datos: {e}")
-        if e.stderr:
-            print(f"Error: {e.stderr}")
-
-# Ejecutar la extracción al iniciar el dashboard
-print("Iniciando extracción de datos...")
-ejecutar_extraccion_datos()
+# TODO: Cargar los datos de los módulos para presentarlos.
 
 # Inicializar la app Dash
 app = dash.Dash(__name__)
@@ -68,7 +47,7 @@ app.layout = html.Div([
         )
     ], style={'width': '80%', 'margin': '20px auto'}),
 
-    # Sección: Posibles zonas prioritarias
+    # Sección: Posibles zonas prioritarias (densidad de puntos por área de la parroquia)
     html.Div([
         html.H2("Posibles zonas prioritarias"),
         html.Label("\nFiltrar por punto más cercano"),
