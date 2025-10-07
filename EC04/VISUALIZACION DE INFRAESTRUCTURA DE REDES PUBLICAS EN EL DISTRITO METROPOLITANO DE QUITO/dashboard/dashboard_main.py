@@ -2,8 +2,6 @@
 # Se ejecuta mediante el módulo dash.
 
 # TODO: implementar el dashboard en el proyecto como tal.
-# TODO: intentar que el dashboard sea interactivo.
-# TODO: presentar los datos de forma ordenada y legible.
 # TODO: completar las funciones declaradas para integrarlas con los demás módulos del equipo.
 
 # Módulos principales de este script.
