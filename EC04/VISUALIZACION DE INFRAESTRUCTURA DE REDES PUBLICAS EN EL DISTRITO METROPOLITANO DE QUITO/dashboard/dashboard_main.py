@@ -2,8 +2,9 @@
 # Se ejecuta mediante el módulo dash.
 
 # Módulos principales del script.
-import dash
+import dash, webbrowser
 from dash import html, dcc, Input, Output
+from threading import Timer
 import pandas as pd
 from pathlib import Path
 import plotly.express as px
@@ -22,6 +23,10 @@ app = dash.Dash(__name__)
 # Servir archivos estáticos
 app.css.config.serve_locally = True
 app.scripts.config.serve_locally = True
+
+# Función para abrir el dashboard automáticamente en la dirección por defecto.
+def abrir_dasboard_auto():
+    webbrowser.open_new('http://127.0.0.1:8050')
 
 # Función para cargar datos estadísticos
 def cargar_estadisticas():
@@ -70,7 +75,7 @@ def crear_grafico_administracion_zonal(filtro_admin='all'):
                  y='total_puntos',
                  title=f'Distribución de puntos WiFi - {filtro_admin if filtro_admin != "all" else "Todas las zonas"}',
                  color='total_puntos',
-                 color_continuous_scale='Blues')
+                 color_continuous_scale='Darkmint')
 
     fig.update_layout(
         xaxis_title='Administración zonal',
@@ -499,9 +504,9 @@ app.layout = html.Div([
                     id="filtro-prioridad",
                     options=[
                         {'label': 'Todas las Zonas', 'value': 'all'},
-                        {'label': '🟥 Alta Prioridad - Baja cobertura', 'value': 'alta'},
-                        {'label': '🟨 Prioridad Media - Cobertura aceptable', 'value': 'media'},
-                        {'label': '🟩 Baja Prioridad - Buena cobertura', 'value': 'baja'}
+                        {'label': 'Alta Prioridad - Baja cobertura', 'value': 'alta'},
+                        {'label': 'Prioridad Media - Cobertura aceptable', 'value': 'media'},
+                        {'label': 'Baja Prioridad - Buena cobertura', 'value': 'baja'}
                     ],
                     value='all',
                     className="dropdown"
@@ -562,7 +567,7 @@ def actualizar_graficos_prioridad(filtro_prioridad):
     grafico2 = crear_grafico_ranking_necesidad(filtro_prioridad)
     return grafico1, grafico2
 
-# Configuración final
+# Configuración final, verificación de archivos
 if __name__ == '__main__':
     print("=== Inicializando el dashboard ===")
     print("Verificando componentes...")
@@ -582,4 +587,6 @@ if __name__ == '__main__':
         else:
             print(f"{nombre} NO encontrado")
 
-    app.run(debug=True, use_reloader=False)
+    Timer(1, abrir_dasboard_auto).start()
+
+    app.run(debug=False, use_reloader=False)
