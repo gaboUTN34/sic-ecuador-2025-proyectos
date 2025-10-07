@@ -34,7 +34,7 @@ Este proyecto es un programa de visualización y análisis de los puntos WiFi mu
 2. Actualizar pip y ejecutar la aplicación:
    ```bash
    pip install --upgrade pip
-   python main.py
+   python3 main.py
    ```
 
 ---
