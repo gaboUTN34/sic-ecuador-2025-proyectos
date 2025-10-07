@@ -1,18 +1,206 @@
 # Este script es para ejecutar el dashboard y presentar los datos obtenidos del módulo visualizacion anteriormente.
 # Se ejecuta mediante el módulo dash.
 
-# TODO: implementar el dashboard en el proyecto como tal.
-# TODO: completar las funciones declaradas para integrarlas con los demás módulos del equipo.
-
-# Módulos principales de este script.
+# Módulos principales del script.
 import dash
-from dash import html, dcc
+from dash import html, dcc, Input, Output
+import pandas as pd
+from pathlib import Path
+import plotly.express as px
+import plotly.graph_objects as go
 
-# TODO: Cargar los datos del módulo de visualización para presentarlos.
-# TODO: Presentar los datos dentro del dashboard.
+# Configuración de rutas para acceder a los datos generados por el equipo.
+BASE_DIR = Path(__file__).parent.parent
+VISUALIZACION_DIR = BASE_DIR / 'visualizacion'
+RESULTADOS_DIR = VISUALIZACION_DIR / 'resultados'
+ESTADISTICAS_DIR = BASE_DIR / 'estadisticas' / 'resultados'
+DATOS_PROCESADOS_DIR = BASE_DIR / 'manejo_de_datos'
 
-# Inicializar la app Dash
+# Inicializar el dashboard
 app = dash.Dash(__name__)
+
+# Servir archivos estáticos
+app.css.config.serve_locally = True
+app.scripts.config.serve_locally = True
+
+# Función para cargar datos estadísticos
+def cargar_estadisticas():
+    """
+    Carga las estadísticas ya calculadas desde los archivos CSV
+    de los módulos locales del equipo.
+    """
+    try:
+        # Cargar estadísticas básicas
+        df_estadisticas = pd.read_csv(ESTADISTICAS_DIR / 'estadisticas_basicas.csv')
+
+        # Cargar cobertura prioritaria
+        df_cobertura = pd.read_csv(ESTADISTICAS_DIR / 'cobertura_prioritaria.csv')
+
+        # Cargar datos procesados
+        df_procesado = pd.read_csv(DATOS_PROCESADOS_DIR / 'zonas_puntos_wifi_procesados.csv')
+
+        print("Datos estadísticos cargados correctamente.")
+        return df_estadisticas, df_cobertura, df_procesado
+    except Exception as e:
+        print(f"Error cargando datos estadísticos: {e}")
+        return None, None, None
+
+# Cargar datos al iniciar
+df_estadisticas, df_cobertura, df_procesado = cargar_estadisticas()
+
+# Funciones para crear gráficos dinámicos con filtros
+def crear_grafico_administracion_zonal(filtro_admin='all'):
+    """
+    Crea un gráfico de barras para puntos WiFi
+    por administración zonal con filtro correspondiente.
+    """
+    if df_procesado is None or 'administracion_zonal' not in df_procesado.columns:
+        return go.Figure()
+
+    # Aplicar filtro si es necesario
+    datos = df_procesado
+    if filtro_admin != 'all':
+        datos = datos[datos['administracion_zonal'] == filtro_admin]
+
+    admin_counts = datos['administracion_zonal'].value_counts().reset_index()
+    admin_counts.columns = ['administracion_zonal', 'total_puntos']
+
+    fig = px.bar(admin_counts,
+                 x='administracion_zonal',
+                 y='total_puntos',
+                 title=f'Distribución de puntos WiFi - {filtro_admin if filtro_admin != "all" else "Todas las zonas"}',
+                 color='total_puntos',
+                 color_continuous_scale='Blues')
+
+    fig.update_layout(
+        xaxis_title='Administración zonal',
+        yaxis_title='Total de puntos WiFi',
+        xaxis_tickangle=-45
+    )
+    return fig
+
+def crear_grafico_top_parroquias(filtro_admin='all'):
+    """Crea gráfico de barras para top 10 parroquias con filtro"""
+    if df_estadisticas is None or 'parroquia' not in df_estadisticas.columns:
+        return go.Figure()
+
+    # Si tenemos datos procesados, podemos filtrar por administración zonal
+    datos = df_estadisticas.copy()
+    if filtro_admin != 'all' and df_procesado is not None:
+        # Obtener parroquias de la administración zonal seleccionada
+        parroquias_filtradas = df_procesado[df_procesado['administracion_zonal'] == filtro_admin]['parroquia'].unique()
+        datos = datos[datos['parroquia'].isin(parroquias_filtradas)]
+
+    top_parroquias = datos.nlargest(10, 'total_puntos')
+
+    fig = px.bar(top_parroquias,
+                 x='parroquia',
+                 y='total_puntos',
+                 title=f'Top 10 parroquias - {filtro_admin if filtro_admin != "all" else "Todas las zonas"}',
+                 color='total_puntos',
+                 color_continuous_scale='Sunset')
+
+    fig.update_layout(
+        xaxis_title='Parroquia',
+        yaxis_title='Número de puntos WiFi',
+        xaxis_tickangle=-45
+    )
+    return fig
+
+def crear_grafico_densidad_vs_area(filtro_prioridad='all'):
+    """Crea gráfico de dispersión para densidad vs área con filtro"""
+    if df_cobertura is None or 'densidad_puntos' not in df_cobertura.columns:
+        return go.Figure()
+
+    # Aplicar filtro por prioridad
+    datos = df_cobertura.copy()
+    if filtro_prioridad != 'all':
+        if filtro_prioridad == 'alta':
+            datos = datos[datos['nivel_necesidad'] >= 4]
+        elif filtro_prioridad == 'media':
+            datos = datos[datos['nivel_necesidad'] == 3]
+        elif filtro_prioridad == 'baja':
+            datos = datos[datos['nivel_necesidad'] <= 2]
+
+    fig = px.scatter(datos,
+                     x='area_km2',
+                     y='densidad_puntos',
+                     size='area_km2',
+                     color='nivel_necesidad',
+                     hover_name='parroquia',
+                     title=f'Densidad vs área - {filtro_prioridad if filtro_prioridad != "all" else "Todas las prioridades"}',
+                     color_continuous_scale='Viridis',
+                     labels={'nivel_necesidad': 'Nivel de necesidad'})
+
+    fig.update_layout(
+        xaxis_title='Área (km²)',
+        yaxis_title='Densidad de puntos WiFi (Puntos/km²)'
+    )
+    return fig
+
+def crear_grafico_ranking_necesidad(filtro_prioridad='all'):
+    """Crea gráfico de barras horizontales para ranking de necesidad con filtro"""
+    if df_cobertura is None or 'nivel_necesidad' not in df_cobertura.columns:
+        return go.Figure()
+
+    # Aplicar filtro por prioridad
+    datos = df_cobertura.copy()
+    if filtro_prioridad != 'all':
+        if filtro_prioridad == 'alta':
+            datos = datos[datos['nivel_necesidad'] >= 4]
+        elif filtro_prioridad == 'media':
+            datos = datos[datos['nivel_necesidad'] == 3]
+        elif filtro_prioridad == 'baja':
+            datos = datos[datos['nivel_necesidad'] <= 2]
+
+    ranking = datos.groupby('parroquia')['nivel_necesidad'].mean().nlargest(10).reset_index()
+    ranking = ranking.sort_values('nivel_necesidad', ascending=True)
+
+    fig = px.bar(ranking,
+                 y='parroquia',
+                 x='nivel_necesidad',
+                 title=f'Ranking de necesidad - {filtro_prioridad if filtro_prioridad != "all" else "Todas las prioridades"}',
+                 orientation='h',
+                 color='nivel_necesidad',
+                 color_continuous_scale='Reds')
+
+    fig.update_layout(
+        xaxis_title='Nivel de necesidad (Score)',
+        yaxis_title='Parroquia'
+    )
+    return fig
+
+# Obtener métricas principales desde las estadísticas
+def obtener_metricas_principales():
+    """Obtiene las métricas principales desde los datos estadísticos"""
+    if df_estadisticas is not None and df_cobertura is not None:
+        total_puntos = df_estadisticas['total_puntos'].sum()
+        parroquias_unicas = len(df_estadisticas)
+        admin_zonales = df_procesado['administracion_zonal'].nunique() if df_procesado is not None else 0
+        brecha_digital = len(df_cobertura[df_cobertura['nivel_necesidad'] >= 4])
+
+        return total_puntos, parroquias_unicas, admin_zonales, brecha_digital
+    return "N/A", "N/A", "N/A", "N/A"
+
+total_puntos, parroquias_unicas, admin_zonales, brecha_digital = obtener_metricas_principales()
+
+# Obtener opciones para filtros
+def obtener_opciones_filtros():
+    if df_procesado is not None:
+        opciones_admin = [{'label': 'Todas las zonas', 'value': 'all'}] + [
+            {'label': admin, 'value': admin}
+            for admin in sorted(df_procesado['administracion_zonal'].unique())
+        ]
+
+        opciones_parroquia = [{'label': 'Todas las parroquias', 'value': 'all'}] + [
+            {'label': parroquia, 'value': parroquia}
+            for parroquia in sorted(df_procesado['parroquia'].unique())
+        ]
+
+        return opciones_admin, opciones_parroquia
+    return [], []
+
+opciones_admin, opciones_parroquia = obtener_opciones_filtros()
 
 # Estilos CSS personalizados para que el dashboard se vea bonito c:
 app.index_string = '''
@@ -128,24 +316,6 @@ app.index_string = '''
                 border-color: #667eea;
             }
 
-            .content-placeholder {
-                background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-                height: 400px;
-                border-radius: 15px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: #6c757d;
-                font-size: 1.1em;
-                border: 2px dashed #dee2e6;
-                transition: all 0.3s ease;
-            }
-
-            .content-placeholder:hover {
-                border-color: #667eea;
-                background: linear-gradient(135deg, #e9ecef, #dee2e6);
-            }
-
             .metrics-grid {
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -180,6 +350,22 @@ app.index_string = '''
                 font-weight: 500;
             }
 
+            .graph-container {
+                background: white;
+                padding: 20px;
+                border-radius: 15px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+                margin-bottom: 20px;
+            }
+
+            .map-container {
+                width: 100%;
+                height: 600px;
+                border-radius: 15px;
+                overflow: hidden;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            }
+
             .footer {
                 text-align: center;
                 color: rgba(255, 255, 255, 0.8);
@@ -205,6 +391,10 @@ app.index_string = '''
                 .metrics-grid {
                     grid-template-columns: 1fr;
                 }
+
+                .map-container {
+                    height: 400px;
+                }
             }
         </style>
     </head>
@@ -219,39 +409,37 @@ app.index_string = '''
 </html>
 '''
 
-# Diseño del dashboard
+# Diseño del dashboard e implementación de filtros
 app.layout = html.Div([
     html.Div([
         # Header
         html.Div([
-            html.H1("Dashboard de análisis - Puntos WiFi Quito", className="main-title"),
+            html.H1("Dashboard de análisis - Puntos WiFi en Quito", className="main-title"),
             html.P(
                 "VISUALIZACION DE INFRAESTRUCTURA DE REDES PUBLICAS EN EL DISTRITO METROPOLITANO DE QUITO",
                 className="subtitle")
         ], className="header"),
 
         # Métricas principales básicas
-        # TODO: obtener los datos de los archivos creados.
-        # TODO: definir con el equipo los filtros a usarse, los que están aquí son de ejemplo.
         html.Div([
             html.Div([
-                html.Div(" ", className="metric-value"),
+                html.Div(f"{total_puntos}", className="metric-value"),
                 html.Div("Total de puntos WiFi", className="metric-label")
             ], className="metric-card"),
 
             html.Div([
-                html.Div(" ", className="metric-value"),
+                html.Div(f"{parroquias_unicas}", className="metric-value"),
                 html.Div("Parroquias cubiertas", className="metric-label")
             ], className="metric-card"),
 
             html.Div([
-                html.Div(" ", className="metric-value"),
+                html.Div(f"{admin_zonales}", className="metric-value"),
                 html.Div("Administraciones zonales", className="metric-label")
             ], className="metric-card"),
 
             html.Div([
-                html.Div(" ", className="metric-value"),
-                html.Div("Brecha digital estimada", className="metric-label")
+                html.Div(f"{brecha_digital}", className="metric-value"),
+                html.Div("Zonas con alta brecha digital", className="metric-label")
             ], className="metric-card"),
         ], className="metrics-grid"),
 
@@ -262,16 +450,26 @@ app.layout = html.Div([
             html.Div([
                 html.Label("Filtrar por administración zonal", className="filter-label"),
                 dcc.Dropdown(
-                    id="sector",
-                    options=[{'label': 'Todas las Zonas', 'value': 'all'}],
+                    id="filtro-admin-zonal",
+                    options=opciones_admin,
                     value='all',
                     className="dropdown"
                 ),
             ], className="filter-container"),
 
+            # Gráficos dinámicos
             html.Div([
-                html.Div("Aquí cargar los gráficos estadísticos",
-                         className="content-placeholder")
+                html.Div([
+                    dcc.Graph(
+                        id='grafico-admin-zonal'
+                    )
+                ], className="graph-container"),
+
+                html.Div([
+                    dcc.Graph(
+                        id='grafico-top-parroquias'
+                    )
+                ], className="graph-container")
             ])
         ], className="section"),
 
@@ -279,19 +477,15 @@ app.layout = html.Div([
         html.Div([
             html.H2("Mapa interactivo de puntos WiFi", className="section-title"),
 
+            # Mapa interactivo
             html.Div([
-                html.Label("Filtrar por parroquia", className="filter-label"),
-                dcc.Dropdown(
-                    id="parroquia",
-                    options=[{'label': 'Todas las Parroquias', 'value': 'all'}],
-                    value='all',
-                    className="dropdown"
-                ),
-            ], className="filter-container"),
-
-            html.Div([
-                html.Div("Aquí cargar el mapa con los puntos WiFi",
-                         className="content-placeholder")
+                html.Iframe(
+                    id="mapa-interactivo",
+                    srcDoc=open(VISUALIZACION_DIR / 'mapa_wifi_quito.html', 'r', encoding='utf-8').read()
+                    if (VISUALIZACION_DIR / 'mapa_wifi_quito.html').exists() else
+                    "<div style='padding: 20px; text-align: center;'>Mapa no disponible. Ejecute maps.py primero.</div>",
+                    className="map-container"
+                )
             ])
         ], className="section"),
 
@@ -302,32 +496,90 @@ app.layout = html.Div([
             html.Div([
                 html.Label("Filtrar por nivel de prioridad", className="filter-label"),
                 dcc.Dropdown(
-                    id="cercania",
+                    id="filtro-prioridad",
                     options=[
                         {'label': 'Todas las Zonas', 'value': 'all'},
-                        {'label': '🟥 Alta Prioridad - Baja Cobertura', 'value': 'alta'},
+                        {'label': '🟥 Alta Prioridad - Baja cobertura', 'value': 'alta'},
                         {'label': '🟨 Prioridad Media - Cobertura aceptable', 'value': 'media'},
-                        {'label': '🟩 Baja Prioridad - Buena Cobertura', 'value': 'baja'}
+                        {'label': '🟩 Baja Prioridad - Buena cobertura', 'value': 'baja'}
                     ],
                     value='all',
                     className="dropdown"
                 ),
             ], className="filter-container"),
 
+            # Gráficos de priorización
             html.Div([
-                html.Div("Aquí cargar el análisis de la densidad",
-                         className="content-placeholder")
+                html.Div([
+                    dcc.Graph(
+                        id='grafico-densidad-area'
+                    )
+                ], className="graph-container"),
+
+                html.Div([
+                    dcc.Graph(
+                        id='grafico-ranking-necesidad'
+                    )
+                ], className="graph-container")
             ])
         ], className="section"),
 
         # Footer
         html.Div([
-            html.P("2025 Proyecto VISUALIZACION DE INFRAESTRUCTURA DE REDES PUBLICAS EN EL DISTRITO METROPOLITANO DE QUITO"),
-            html.P("Datos proporcionados por el API de puntos WiFi del Distrito Metropolitano de Quito")
+            html.P(
+                "Proyecto VISUALIZACION DE INFRAESTRUCTURA DE REDES PUBLICAS EN EL DISTRITO METROPOLITANO DE QUITO"),
+            html.P("Datos proporcionados por el API de puntos WiFi del Distrito Metropolitano de Quito"),
+            html.P("Elaborado para el Samsung Innovation Campus 2025")
         ], className="footer")
 
     ], className="dashboard-container")
 ])
 
+# Callbacks para los filtros, para actualizarlos de forma dinámica.
+@app.callback(
+    [Output('grafico-admin-zonal', 'figure'),
+     Output('grafico-top-parroquias', 'figure')],
+    [Input('filtro-admin-zonal', 'value')]
+)
+def actualizar_graficos_estadisticas(filtro_admin):
+    """
+    Actualiza ambos gráficos de estadísticas cuando cambia el filtro de administración zonal
+    """
+    grafico1 = crear_grafico_administracion_zonal(filtro_admin)
+    grafico2 = crear_grafico_top_parroquias(filtro_admin)
+    return grafico1, grafico2
+
+@app.callback(
+    [Output('grafico-densidad-area', 'figure'),
+     Output('grafico-ranking-necesidad', 'figure')],
+    [Input('filtro-prioridad', 'value')]
+)
+def actualizar_graficos_prioridad(filtro_prioridad):
+    """
+    Actualiza ambos gráficos de prioridad cuando cambia el filtro de nivel de prioridad
+    """
+    grafico1 = crear_grafico_densidad_vs_area(filtro_prioridad)
+    grafico2 = crear_grafico_ranking_necesidad(filtro_prioridad)
+    return grafico1, grafico2
+
+# Configuración final
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=True)
+    print("=== Inicializando el dashboard ===")
+    print("Verificando componentes...")
+
+    # Verificar que los módulos necesarios existen
+    componentes = {
+        'diagramas.py': VISUALIZACION_DIR / 'diagramas.py',
+        'maps.py': VISUALIZACION_DIR / 'maps.py',
+        'datos procesados': DATOS_PROCESADOS_DIR / 'zonas_puntos_wifi_procesados.csv',
+        'estadísticas básicas': ESTADISTICAS_DIR / 'estadisticas_basicas.csv',
+        'cobertura prioritaria': ESTADISTICAS_DIR / 'cobertura_prioritaria.csv'
+    }
+
+    for nombre, ruta in componentes.items():
+        if ruta.exists():
+            print(f"{nombre} encontrado")
+        else:
+            print(f"{nombre} NO encontrado")
+
+    app.run(debug=True, use_reloader=False)
