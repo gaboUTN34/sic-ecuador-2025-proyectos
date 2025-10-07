@@ -69,8 +69,13 @@ VISUALIZACION DE INFRAESTRUCTURA DE REDES PUBLICAS EN EL DISTRITO METROPOLITANO 
 │   ├── zonas_puntos_wifi.csv                    # Archivo CSV con los datos de la API (zonas wifi).
 │   └── zonas_puntos_wifi_procesados.csv         # Archivo CSV con los datos procesados de las zonas wifi.
 ├── 📂 visualizacion/
-│   ├── __init__.py                              # Declara como módulo a la carpeta para utilizar sus datos.              
-│   └── visualizador.py                          # Gráficos de los resultados y mapa.
+│   ├── 📂 resultados/                          # Contiene las imágenes PNG generadas por 'diagramas.py'.
+│   │   ├── diagrama_barras_puntos_por_admin_zonal.png
+│   │   ├── diagrama_barras_ranking_necesidad.png
+│   │   ├── diagrama_barras_top_10_parroquias.png
+│   │   └── diagrama_dispersion_densidad_vs_area.png
+│   ├── __init__.py                              # Declara como módulo a la carpeta para utilizar.              
+│   └── diagramas.py                             # Script para generar los gráficos estáticos.
 ├── dashboard_main.py                            # Aplicación principal (dashboard)
 ├── requirements.txt                             # Dependencias del proyecto
 └── README.md                                    # Este archivo.
