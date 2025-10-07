@@ -9,6 +9,7 @@ geopandas==1.1.1
 # Visualización de datos (graficas estadísticas)
 matplotlib>=3.8.0
 seaborn>=0.13.0
+plotly>=6.3.0
 
 # Mapas (Representación geoespacial)
 folium>=0.15.0

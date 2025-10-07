@@ -31,23 +31,10 @@ Este proyecto es un programa de visualización y análisis de los puntos WiFi mu
    cd <EC04/VISUALIZACION DE INSFRAESTRUCTURA DE REDES PUBLICAS EN EL DISTRITO METROPOLITANO DE QUITO>   # ej: cd ecuador03/proyecto-01-nombre
    ```
 
-2. Actualizar pip e instalar dependencias:
+2. Actualizar pip y ejecutar la aplicación:
    ```bash
    pip install --upgrade pip
-   pip install -r requirements.txt
-   ```
-
-3. Ejecutar la aplicación:
-   ```bash
-   python dashboard_main.py
-   ```
-
-Nota: después de ejecutar la aplicación, abrir el dashboard accediendo a:
-http://127.0.0.1:8050/
-
-4. Ejecutar pruebas (si aplica):
-   ```bash
-   pytest
+   python main.py
    ```
 
 ---
@@ -55,38 +42,38 @@ http://127.0.0.1:8050/
 ## 📂 Estructura del proyecto:
 ```
 VISUALIZACION DE INFRAESTRUCTURA DE REDES PUBLICAS EN EL DISTRITO METROPOLITANO DE QUITO/
+├── 📂 dashboard/
+│   └── dashboard_main.py                               # Script del dashboard en Dash.
 ├── 📂 estadisticas/
-│   ├── 📂 resultados                            # Carpeta que contiene los resultados estadísticos.
-│   │   ├── cobertura_prioritaria.csv            # Declara como módulo a la carpeta para utilizar sus datos.
-│   │   └── estadisticas_basicas.csv             # Declara como módulo a la carpeta para utilizar sus datos.
-│   ├── __init__.py                              # Declara como módulo a la carpeta para utilizar sus datos.
-│   ├── basic_stats.py                           # Script para calcular las estadísticas básicas.
-│   └── coverage_calc.py                         # Script para calcular la cobertura prioritaria.
+│   ├── 📂 resultados                                   # Carpeta que contiene los resultados estadísticos.
+│   │   ├── cobertura_prioritaria.csv            
+│   │   └── estadisticas_basicas.csv             
+│   ├── basic_stats.py                                  # Script para calcular las estadísticas básicas.
+│   └── coverage_calc.py                                # Script para calcular la cobertura prioritaria.
 ├── 📂 manejo_de_datos/
-│   ├── __init__.py                              # Declara como módulo a la carpeta para utilizar sus datos.   
-│   ├── datos_procesados.py                      # Script de procesamiento de los datos.
-│   ├── extraccion_datos.py                      # Script de extracción de los datos desde la API.
-│   ├── zonas_puntos_wifi.csv                    # Archivo CSV con los datos de la API (zonas wifi).
-│   └── zonas_puntos_wifi_procesados.csv         # Archivo CSV con los datos procesados de las zonas wifi.
+│   ├── datos_procesados.py                             # Script de procesamiento de los datos.
+│   ├── extraccion_datos.py                             # Script de extracción de los datos desde la API.
+│   ├── zonas_puntos_wifi.csv                    
+│   └── zonas_puntos_wifi_procesados.csv         
 ├── 📂 visualizacion/
-│   ├── 📂 resultados/                          # Contiene las imágenes PNG generadas por 'diagramas.py'.
+│   ├── 📂 resultados/                                  # Contiene las imágenes PNG generadas por 'diagramas.py'.
 │   │   ├── diagrama_barras_puntos_por_admin_zonal.png
 │   │   ├── diagrama_barras_ranking_necesidad.png
 │   │   ├── diagrama_barras_top_10_parroquias.png
 │   │   └── diagrama_dispersion_densidad_vs_area.png
-│   ├── __init__.py                              # Declara como módulo a la carpeta para utilizar.              
-│   └── diagramas.py                             # Script para generar los gráficos estáticos.
-├── dashboard_main.py                            # Aplicación principal (dashboard)
-├── requirements.txt                             # Dependencias del proyecto
-└── README.md                                    # Este archivo.
+│   ├── diagramas.py                                    # Script para generar los gráficos estáticos.
+│   ├── mapa_wifi_quito.html                            # El mapa generado por maps.py
+│   └── maps.py                                         # Script para generar el mapa de puntos WiFi
+├── main.py                                             # Aplicación principal.
+├── requirements.txt                                    # Dependencias del proyecto.
+└── README.md                                           # Este archivo.
 ```
 
 ---
 
 ## ✅ Herramientas Implementadas
 - **Lenguaje:** Python 3.13.x
-- **Librerías principales:** `<pandas, numpy, requests, matplotlib, seaborn, folium, dash, scipy, subprocess, sys, os>`
-- **Otras herramientas:** `<pytest>`
+- **Librerías principales:** `<pandas, geopandas, numpy, requests, matplotlib, seaborn, folium, plotly, dash, scipy>`
 
 ---
 
